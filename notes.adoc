@@ -1,0 +1,191 @@
+== Columned Content
+:source-highlighter: highlightjs
+
+Some options:
+
+* css grid
+* flexbox
+* columns
+
+[source,python]
+puts 'hi'
+
+With css grid
+
+[source,css]
+--
+section.content {
+  margin: 5mm;
+  padding: 0;
+  height: calc(100vh - 50mm);
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  /* grid-template-rows: 30px 30px; */
+  grid-auto-flow: column;
+  /* display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; */
+}
+--
+
+With columns
+
+[source,css]
+--
+section.content {
+  margin-top: 5mm;
+  margin-bottom: 5mm;
+  padding: 0;
+  height: calc(100vh - 40mm);
+  width: calc(100vw);
+  columns: 3;
+  column-rule: 1px solid #ddd;
+  /* display: grid; */
+  /* grid-template-columns: repeat(auto-fill,calc((100vw / 3) - 10mm)); */
+  /* grid-auto-flow: column; */
+}
+
+.sect1 {
+  /* max-width: calc((100vw / 3) - 3cm); */
+  width: calc((100vw / 3) - 30mm);
+  margin-right: 6mm;
+  margin-left: 6mm;
+}
+--
+
+
+////
+
+section.content {
+  margin-top: 5mm;
+  margin-bottom: 5mm;
+  padding: 0;
+  height: calc(100vh - 40mm);
+  width: calc(100vw);
+  columns: 3;
+  column-rule: 1px solid #ddd;
+  /* display: grid; */
+  /* grid-template-columns: repeat(auto-fill,calc((100vw / 3) - 10mm)); */
+  /* grid-auto-flow: column; */
+}
+
+////
+
+Footnotes have gone missing ? !
+
+Images (svg)
+
+Youtube Vimeo videos
+
+
+PR regarding development dependencies and installation
+PR regarding page and column breaks and introduction to paged.js and how to integrate with Asciidoctor
+PR regarding use of custom stylesheets
+
+
+* `pass:[:data-uri:]` -- Embed images directly in the document
+* `pass:[:imagesdir: media]` -- make the folder `media` (relative to the document) the location of images
+
+* `pass:[:stem:]` -- Allow use of equations using AsciiMath
+
+:experimental:
+
+
+
+////
+
+Other ecosystem tools.
+
+asciidoctor-pdf.js
+asciidoctor-diagram
+asciidoctor-extensions-library
+Antora
+User Manual
+
+
+:figure-caption: Figure
+:toc: left
+:docinfo: shared
+:docinfodir: {assetdir}
+:docinfosubs: attributes
+:safe-mode-unsafe:
+:iconfont-remote!:
+:stylesheet: asciidoctor.css
+:scriptsdir: {assetdir}
+:linkcss!:
+:data-uri:
+:iconfont-name: font-awesome.min
+:imagesdir: media
+:icons: font
+:nofooter:
+:sectnums:
+:sectnumlevels: 3
+:sectlinks:
+:sectanchors:
+:experimental:
+:stem:
+
+ifdef stuff
+
+Adding own attributes and css
+
+Other tips -- escaping pass macros or inline macros
+
+.Replacements
+A long time ago in a galaxy far, far away...
+(C) 1976 Arty Artisan
+I believe I shall--no, actually I won't.
+
+.Macros
+// where c=specialchars, q=quotes, a=attributes, r=replacements, m=macros, p=post_replacements, etc.
+The European icon:flag[role=blue] is blue & contains pass:[************] arranged in a icon:circle-o[role=yellow].
+The pass:c[->] operator is often referred to as the stabby lambda.
+Since `pass:[++]` has strong priority in AsciiDoc, you can rewrite pass:c,a,r[C++ => C{pp}].
+// activate stem support by adding `:stem:` to the document header
+stem:[sqrt(4) = 2]
+
+
+:!hardbreaks:
+== Attributes
+
+ // define attributes in the document header; must be flush with left margin
+ :name: value
+
+You can download and install Asciidoctor {asciidoctor-version} from {url-gem}.
+C{pp} is not required, only Ruby.
+Use a leading backslash to output a word enclosed in curly braces, like \{name}.
+
+== Roles, Styles and IDs
+
+ [sidebar#id.role]
+ A style, ID, and/or role gives a paragraph (or block) special meaning, like the sidebar below.
+
+[sidebar#id.role]
+A style, ID, and/or role gives a paragraph (or block) special meaning, like this sidebar.
+
+Editor support
+
+hyperlink admonitions, callouts and icons in document-wide attributes.
+
+=== Checklist
+
+* [x] checked
+* [ ] not checked
+
+=== Callout
+
+// enable callout bubbles by adding `:icons: font` to the document header
+[,ruby]
+----
+puts 'Hello, World!' # <1>
+----
+<1> Prints `Hello, World!` to the console.
+
+=== Description
+
+first term:: description of first term
+second term::
+
+Advanced Lists
+
+////

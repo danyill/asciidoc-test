@@ -2,10 +2,17 @@
 Simon Maple <https://twitter.com/sjmaple>; Robert Scholte <https://twitter.com/rfscholte>
 :authorbio_1: Java Champion and Developer Advocate at Snyk
 :authorbio_2: CEO of Sourcegrounds, Chairman of the Apache Maven project
-:pdf-width: 420mm
-:pdf-height: 297mm
 :icons: font
+:sectanchors:
+// :stylesheet: ./asciidoctor.css
+// :linkcss:
+// :docinfo: shared
+// :docinfodir: base
+// :stylesdir: base
+// :stylesheet: style.css
 :stem:
+:uri-ventilated-prose: https://vanemden.wordpress.com/2009/01/01/ventilated-prose/
+:uri-vcses: https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
 // :toc: left
 // :url-docs: https://asciidoctor.org/docs
 // :url-gem: https://rubygems.org/gems/asciidoctor
@@ -14,183 +21,270 @@ Simon Maple <https://twitter.com/sjmaple>; Robert Scholte <https://twitter.com/r
 
 === Header
 
- // header must be flush with left margin
+The header must be flush with left margin
+
  = Document Title
  Author Name <author@example.org>
- v1.0, 2019-01-01
+ v1.0, 2019-01-01: Revision remark
+
+All of these are optional.
+
+These can also be set using attributes. Attributes in Asciidoctor always are:
+
+  :key: value
+
+For example:
+
+  :doctitle: Wishing Upon A Star
+  :author: Galileo Galilei
+  :email: stars@universe.com
+  :revnumber: v1.0
+  :revdate: 2019-01-01
+  :revremark: First edition
+
+=== Document-Wide Attributes
+
+After the title, author, version and date information, document-wide attributes can be set.
+These can be any arbitrary `:key: value` but some have special meaning and turn on document features.
+
+Here are some commonly used attributes.
+
+[none]
+* `pass:[:sectanchors:]` -- creates an empty link (a section entity, §) visible when hovering just left of the section title
+* `pass:[:sectlinks:]` -- makes each section title a link
+* `pass:[:sectnums:]` -- numbers all sections
+* `pass:[:sectnumlevels: 3]` -- determines the depth of numbering. Default is 3
+* `pass:[:nofooter:]` -- remove footer at bottom of document
+* `pass:[:icons: font]` -- Enable FontAwesome to support admonitions, callouts and icons
+* `pass:[:reproducible:]` -- Removes `last-updated` date from html to avoid changes caused by this
 
 === Sections
 
- // must be flush with left margin
+Sections must also be flush with left margin
+
  = Document Title (Level 0)
  == Level 1
  === Level 2
  ==== Level 3
- ===== Level 4
- ====== Level 5
+ ===== etc...
  == Back at Level 1
 
+=== Generating a Table of Contents
+
+In the document header, set `:toc:` and a table of contents is inserted directly below the document header.
+The following options are also available:
+
+[none]
+* `pass:[:toc: preamble]` -- inserts the TOC just below the preamble
+* `pass:[:toc: macro:]` -- allows use of the block toc macro [.nobreak]#`toc::[]`# for insertion anywhere in the document
+* `pass:[:toc: left|right]`  -- inserts a side column for the table of contents if screen width allows
+
+
+[#paragraphs]
 == Paragraphs
+
+=== Line Breaks
 
 A blank line separates paragraphs.
 
 Line breaks are not preserved by default.
+This is called {uri-ventilated-prose}[ventilated prose].
+It works well with {uri-vcses}[VCSes].
 
-Set the hardbreaks option to preserve line breaks.
+Set the `hardbreaks` option to preserve line breaks.
 
- [%hardbreaks]
- This paragraph carries the `hardbreaks` option.
- Line breaks are now preserved.
+  [%hardbreaks]
+  This paragraph carries the `hardbreaks` option.
+  Line breaks are now preserved.
 
-Indenting with one or more spaces creates a literal paragraph. This disables text formatting, preserves spaces and line breaks, and is displayed in a monospaced font.
+For a "`one-off`" line break, at the end use a space and a `+` +
+to break the line.
 
- // commented lines begin like this and are not shown in the output.
+Indenting with one or more spaces creates a literal paragraph.
+This disables text formatting, preserves spaces and line breaks, and is displayed in a monospaced font.
+Like this:
+
+  C:\Program Files\SomethingAwesome.exe
+
+=== Alignment
+
+To align a block, set a role in the form: [.nobreak]`[.text-{left|center|right|justify}]`:
+
+e.g.
+
+  [.text-center]
+  This text would be centered
+
+== Text Formatting
+
+Asciidoc has two types of formatting:
+
+* _Constrained_ for formatting at word boundaries
+* _Unconstrained_ which apply anywhere
+
+=== Constrained
+
+[none]
+* `pass:[*strong importance/bold*]` -> *strong importance*
+* `pass:[_stress emphasis/italics_]` -> _stress emphasis/italics_
+* `pass:[monospace/typewriter]` -> `monospace/typewriter`
+* Curly quotes: `pass:none["`double`"]`/`pass:none['`single`']` -> "`double`"/'`single`'
+* Highlighting: `pass:none[#highlighted#]` -> #highlighted#
+
+=== Unconstrained
+
+[none]
+* `pass:[**D**o**N**ot**R**epeat]` -> **D**o**N**ot**R**epeat
+* `pass:[fan__freakin_tastic]` -> fan__freakin__tastic
+* `pass:[```mono``culture]` -> ``mono``culture
+* Highlighting: `pass:none[high##light##ed]` -> high##light##ed
+
+=== Superscript and Subscript
+
+[none]
+* `pass:[^Super^script]` -> ^Super^script
+* `pass:[~Sub~script]` -> ~Sub~script
+
+You can use this to write e=mc^2^ and H~2~O but checkout <<Equations>> as well.
+
+=== Custom Roles
+
+A custom role can be applied using a style applied to hash symbols, like this:
+
+[none]
+* `pass:[[small\]#small text#]` -> [small]#small text#
+
+Use dots between multiple roles, e.g.
+
+[none]
+* `pass:[[.small.green\]#small text#]` -> [.small.green]#small text#
+
+== Comments
+
+Comments are not included in the output and can be useful for audit-trail, review, commentary and outstanding items.
+
+ // commented lines begin like this and are not shown in the output
 
  ////
- This is how we fence 
+ This is how we fence
  multi-line comments
  ////
 
- [sidebar#id.role]
- A style, ID, and/or role gives a paragraph (or block) special meaning, like this sidebar.
-
+Sometimes in Asciidoc items "`stick together`" (e.g. list items). Use a comment line to separate them.
 
 == Admonitions
 
-Asciidoctor has 5 admonition types: `NOTE:`, `TIP:`, `IMPORTANT:`, `CAUTION:` and `WARNING:`.
+Asciidoctor has 5 default admonition types: `NOTE:`, `TIP:`, `IMPORTANT:`, `CAUTION:` and `WARNING:`.
 
-TIP: Start a paragraph like this one beginning `TIP:` and it will be displayed to catch your reader's attention.
+TIP: Start a paragraph like this one beginning `TIP:` and it will be displayed like this to catch your reader's attention.
 
 You can also fence an admonition using `====` and set a title by starting a line with `.` This can help with complex multi-line content.
 
-[IMPORTANT] 
-.Feeding the Werewolves
-==== 
-Werewolves are hardy community members but remember to avoid chocolate.
+Here's an example:
 
-They are also lactose intolerant so avoid dairy.
-====
+  [IMPORTANT]
+  .Feeding the Werewolves
+  ====
+  Werewolves are hardy community members but remember to avoid chocolate.
 
-
-
-NOTE: An admonition paragraph, like this note, grabs the reader's attention.
-
-TIP: Convert this document using the `asciidoctor` command to see the output produced from it.
-
-== Text Formatting
-:hardbreaks:
-
-.Constrained (applied at word boundaries)
-*strong importance* (aka bold)
-_stress emphasis_ (aka italic)
-`monospaced` (aka typewriter text)
-"`double`" and '`single`' typographic quotes
-+passthrough text+ (substitutions disabled)
-`+literal text+` (monospaced with substitutions disabled)
-
-.Unconstrained (applied anywhere)
-**C**reate+**R**ead+**U**pdate+**D**elete
-fan__freakin__tastic
-``mono``culture
-
-.Replacements
-A long time ago in a galaxy far, far away...
-(C) 1976 Arty Artisan
-I believe I shall--no, actually I won't.
-
-.Macros
-// where c=specialchars, q=quotes, a=attributes, r=replacements, m=macros, p=post_replacements, etc.
-The European icon:flag[role=blue] is blue & contains pass:[************] arranged in a icon:circle-o[role=yellow].
-The pass:c[->] operator is often referred to as the stabby lambda.
-Since `pass:[++]` has strong priority in AsciiDoc, you can rewrite pass:c,a,r[C++ => C{pp}].
-// activate stem support by adding `:stem:` to the document header
-stem:[sqrt(4) = 2]
-
-:!hardbreaks:
-== Attributes
-
- // define attributes in the document header; must be flush with left margin
- :name: value
-
-You can download and install Asciidoctor {asciidoctor-version} from {url-gem}.
-C{pp} is not required, only Ruby.
-Use a leading backslash to output a word enclosed in curly braces, like \{name}.
+  They are also lactose intolerant so avoid dairy.
+  ====
 
 == Links
 
-[%hardbreaks]
-https://example.org/page[A webpage]
-link:../path/to/file.txt[A local file]
-xref:document.adoc[A sibling document]
-mailto:hello@example.org[Email to say hello!]
+Some types of links will be automatically identifier (mailto, web URLs). Otherwise use the `\link:<URI>[identifier]` macro.
 
-== Anchors
+  https://example.org/page[A webpage]
+  mailto:hello@example.org[Email to say hello!]
+  link:tel:+123456789[A telephone number]
+  link:../path/to/file.txt[A local file]
+  xref:document.adoc[A sibling document]
 
-[[idname,reference text]]
-// or written using normal block attributes as `[#idname,reftext=reference text]`
-A paragraph (or any block) with an anchor (aka ID) and reftext.
+[#lists.columnbreak]
+== Lists -- The Basics
 
-See <<idname>> or <<idname,optional text of internal link>>.
-
-xref:document.adoc#idname[Jumps to anchor in another document].
-
-This paragraph has a footnote.footnote:[This is the text of the footnote.]
-
-== Lists
+You can mix and match with unordered and ordered lists. Here's how they work:
 
 === Unordered
 
-* level 1
-** level 2
-*** level 3
-**** level 4
-***** etc.
-* back at level 1
-+
-Attach a block or paragraph to a list item using a list continuation (which you can enclose in an open block).
+Unordered lists can use `*` or `-` characters but hyphens only work for single level lists.
 
-.Some Authors
-[circle]
-- Edgar Allen Poe
-- Sheri S. Tepper
-- Bill Bryson
+....
+  * level 1
+  ** level 2
+  *** level 3
+  **** etc.
+  * back at level 1
+  +
+  Use the + at the start of a line - a list continuation to attach multi-line text to a list item.
+....
+
+A role can be applied on the line before the list using `[square|circle|disc|none|unstyled]`. The default is a bullet.
+
+Like most blocks in Asciidoc, a title can be provided using a [.no-break]#`.<title>`# before the content (and role). Here's an example:
+
+.A clever title
+[square]
+* Here we are, using squares
+* We wrote `[square]` on the line before the first `*`
+* And `.A clever title` on the line above that
 
 === Ordered
 
-. Step 1
-. Step 2
-.. Step 2a
-.. Step 2b
-. Step 3
+Ordered lists can use numbers but then you must keep them in order yourself. You can start each numbered item with a `.`:
 
-.Remember your Roman numerals?
-[upperroman]
-. is one
-. is two
-. is three
+....
+  . Step 1
+  . Step 2
+  .. Step 2a
+  .. Step 2b
+  . Step 3
+....
 
-=== Checklist
+A role can be applied on the line before the list using `[arabic|decimal|loweralpha|upperalpha|lowerroman|upperroman|lowergreek]`. The default is 1,2,3... which is `arabic`.
 
-* [x] checked
-* [ ] not checked
+=== Specifying the start
 
-=== Callout
+You can specify the start of an ordered list by setting a start attribute after the role or separately e.g.
 
-// enable callout bubbles by adding `:icons: font` to the document header
-[,ruby]
-----
-puts 'Hello, World!' # <1>
-----
-<1> Prints `Hello, World!` to the console.
+  .Remember your Roman numerals?
+  [lowerroman,start=4]
+  . is one
+  . is two
+  . is three
 
-=== Description
+or 
 
-first term:: description of first term
-second term::
-description of second term
+  [start=2]
+  . the second
+  . the third
 
+Irrespective of the style, `start=` should be followed by a number (like on the keyboard!)
 
+[#anchors.pagebreak]
+== Anchors, References and Footnotes
 
+The legacy style is:
+
+  [[idname,reference text]]
+
+or written using normal block attributes as
+
+  [#idname,reftext=reference text]`
+
+A paragraph (or any block) with an anchor (aka ID) and reftext.
+
+  See <<idname>> or <<idname,optional text of internal link>>.
+
+Cross references to other documents:
+
+  xref:document.adoc#idname[Jumps to anchor in another document].
+
+Finally, footnotesfootnote:[This is the text of the footnote.]:
+
+  This paragraph has a footnote.footnote:[This is the text of the footnote.]
+
+[#anchors2.pagebreak]
 == Blocks
 
 --
@@ -290,15 +384,15 @@ comment - content which is not included in the output document
 
 == Multimedia
 
-image::screenshot.png[block image,800,450]
+// image::screenshot.png[block image,800,450]
 
-Press image:reload.svg[reload,16,opts=interactive] to reload the page.
+// Press image:reload.svg[reload,16,opts=interactive] to reload the page.
 
-video::movie.mp4[width=640,start=60,end=140,options=autoplay]
+// video::movie.mp4[width=640,start=60,end=140,options=autoplay]
 
-video::aHjpOzsQ9YI[youtube]
+// video::aHjpOzsQ9YI[youtube]
 
-video::300817511[vimeo]
+// video::300817511[vimeo]
 
 == Breaks
 
@@ -310,7 +404,7 @@ video::300817511[vimeo]
 
 ////
 
-== More 
+== More
 
 Extensions
 asciidoctor-diagram
@@ -338,9 +432,7 @@ Bring content in from other files
  // define -a allow-uri-read to allow content to be read from URI
  include::https://example.org/installation.adoc[]
 
-////
 
-////
 == Encrypt your Secrets 1 2 3 4 5 6 7 8 9 10
 
 ```
