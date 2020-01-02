@@ -74,6 +74,9 @@ ${node.getContent()}
 ${footnotes(node)}
 </section>
 ${stemContent.content(node)}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
 </body>
 </html>`
 }
