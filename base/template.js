@@ -1,3 +1,17 @@
+const stemContent = require('./stem')
+
+const footnotes = (node) => {
+  if (node.hasFootnotes() && !(node.isAttribute('nofootnotes'))) {
+    return `<div id="footnotes">
+        <hr/>
+        ${node.getFootnotes().map((footnote) => `<div class="footnote" id="_footnotedef_${footnote.getIndex()}">
+        <a href="#_footnoteref_${footnote.getIndex()}">${footnote.getIndex()}</a>. ${footnote.getText()}
+        </div>`).join('')}
+      </div>`
+  }
+  return ''
+}
+
 const getAuthors = function (node) {
   const result = [];
   const authorCount = node.getAttribute('authorcount')
@@ -36,7 +50,6 @@ const renderAuthors = function (authors) {
   }).join('\n')
 }
 
-
 module.exports = {
   paragraph: (node) => `<p class="${node.getRoles().join(' ')}">${node.getContent()}</p>`,
   document: (node) => `<!DOCTYPE html>
@@ -49,18 +62,20 @@ module.exports = {
 <body>
 <header>
   <img class="wordmark" src="./media/byline.jpeg"/>
-  <h1>${node.getHeader().getTitle()}</h1>
+  <h1>${node.getTitle()}</h1>
+  <p>version: <code>${node.getRevisionNumber()}</code></p>
   <a class="website" href="https://asciidoctor.org/">asciidoctor.org</a>
   <img class="logo" src="./media/logo-fill-color.svg"/>
 </header>
 <section class="content">
 ${node.getContent()}
 <div class="sect1 authors">
-<h3>Authors :</h3>
-${renderAuthors(getAuthors(node))}
-</div>
+<h2>Footnotes</h2>
+${footnotes(node)}
 </section>
-</body>`
+${stemContent.content(node)}
+</body>
+</html>`
 }
 
 

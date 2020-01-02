@@ -189,3 +189,74 @@ second term::
 Advanced Lists
 
 ////
+
+
+More Lists
+
+* Q&A Lists
+* Description Lists
+* Checklists
+* Interactive Lists
+
+Include directive
+
+
+
+Adding your own styles
+
+
+== Media
+
+=== Images
+
+=== Video
+
+=== Audio
+
+=== Icons
+
+
+
+== Include Directive
+
+
+
+
+== Equations and Formulas
+
+
+
+Substitutions & Passthroughs
+
+
+Experimental Features
+
+== Syntax Highlighting
+
+=== Callouts
+
+
+link to source
+other documentation
+
+Extensions
+
+Editor Support
+
+
+
+For vs-code
+
+List attributes
+
+:uri-asciimath: http://asciimath.org/
+:uri-latex: https://en.wikibooks.org/wiki/LaTeX
+
+Document equation numbering
+Document superscripts/subscripts adjustment
+
+
+Command to wrap with pass through
+Command to get attributes
+
+Document special paged css in project

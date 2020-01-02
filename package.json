@@ -1,0 +1,7 @@
+{
+  "name": "asciidoctor-cheat-sheat",
+  "version": "0.10.0",
+  "devDependencies": {
+    "mathjax": "3.0.0"
+  }
+}

@@ -1,35 +1,64 @@
-= Asciidoctor Quick Reference
-Simon Maple <https://twitter.com/sjmaple>; Robert Scholte <https://twitter.com/rfscholte>
-:authorbio_1: Java Champion and Developer Advocate at Snyk
-:authorbio_2: CEO of Sourcegrounds, Chairman of the Apache Maven project
+= Asciidoctor Quick Reference: HTML
+Daniel Mulholland
+v 0.10
 :icons: font
 :sectanchors:
-// :stylesheet: ./asciidoctor.css
-// :linkcss:
-// :docinfo: shared
-// :docinfodir: base
-// :stylesdir: base
-// :stylesheet: style.css
 :stem:
+:imagesdir: media
+// icon widths
+:iw: 40 
 :uri-ventilated-prose: https://vanemden.wordpress.com/2009/01/01/ventilated-prose/
 :uri-vcses: https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
-// :toc: left
-// :url-docs: https://asciidoctor.org/docs
-// :url-gem: https://rubygems.org/gems/asciidoctor
+:uri-vs-code: https://marketplace.visualstudio.com/items?itemName=joaompinto.asciidoctor-vscode
+:uri-vim: https://www.vim.org/
+:uri-atom: https://atom.io/packages/asciidoc-assistant
+:uri-brackets: https://github.com/asciidoctor/brackets-asciidoc-preview
+:uri-intellij: https://github.com/asciidoctor/asciidoctor-intellij-plugin
+:uri-asciidocfx: https://www.asciidocfx.com/
+:uri-geany: https://www.geany.org/
+:uri-notepadpp: https://github.com/edusantana/asciidoc-highlight
+:uri-sublimetext: https://packagecontrol.io/packages/AsciiDoc
+:uri-eclipse: https://marketplace.eclipse.org/content/asciidoctor-editor
+:uri-asciimath: http://asciimath.org/
+:uri-latex: https://en.wikibooks.org/wiki/LaTeX
+:uri-mathjax: https://www.mathjax.org/
+:uri-docs: https://asciidoctor.org/docs
+:uri-revealjs: https://revealjs.com/#/
+:uri-revealjs-asciidoctor: https://github.com/asciidoctor/asciidoctor-reveal.js
+:uri-asciidoctor-diagram: https://asciidoctor.org/docs/asciidoctor-diagram/
+:uri-asciidoctor-output-formats: https://asciidoctor.org/docs/convert-documents/#selecting-an-output-format
+:uri-gitter-asciidoctor: https://gitter.im/asciidoctor/asciidoctor
+:uri-hugo: https://gohugo.io/content-management/formats/
+:uri-jekyll: https://github.com/asciidoctor/jekyll-asciidoc
+:uri-middleman: https://github.com/middleman/middleman-asciidoc
+:uri-antora: https://antora.org/
+:uri-asciidoctor-user-manual-audio: https://asciidoctor.org/docs/user-manual/#audio
+:uri-asciidoctor-user-manual-icon: https://asciidoctor.org/docs/user-manual/#inline-icons
+:uri-asciidoctor-user-manual-extensions: https://asciidoctor.org/docs/user-manual/#extensions
+:uri-mdn-web-image-formats: https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#Common_image_file_types
+:uri-mdn-web-video-formats: https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#Common_codecs
+:uri-static-website-asciidoc-list: https://gist.github.com/briandominick/e5754cc8438dd9503d936ef65fffbb2d
+:uri-asciidoctor-pdf-js: https://github.com/Mogztter/asciidoctor-pdf.js
+:uri-asciidoctor-pdf: https://github.com/asciidoctor/asciidoctor-pdf
+
+[preface]
+This quick reference is focussed on the HTML backend, but Asciidoctor supports {uri-asciidoctor-output-formats}[many output formats]. For detailed documentation, see the {uri-docs}[user manual].
+
+// QUESTION: should the headings be links to more detailed information?
 
 == Document Structure
 
 === Header
 
-The header must be flush with left margin
+The header must be flush with left margin:
 
- = Document Title
- Author Name <author@example.org>
- v1.0, 2019-01-01: Revision remark
+  = Document Title
+  Author Name <author@example.org>
+  v1.0, 2019-01-01: Revision remark
 
 All of these are optional.
-
-These can also be set using attributes. Attributes in Asciidoctor always are:
+These can also be set using attributes.
+Attributes in Asciidoctor always are:
 
   :key: value
 
@@ -56,7 +85,7 @@ Here are some commonly used attributes.
 * `pass:[:sectnumlevels: 3]` -- determines the depth of numbering. Default is 3
 * `pass:[:nofooter:]` -- remove footer at bottom of document
 * `pass:[:icons: font]` -- Enable FontAwesome to support admonitions, callouts and icons
-* `pass:[:reproducible:]` -- Removes `last-updated` date from html to avoid changes caused by this
+// * `pass:[:reproducible:]` -- Removes `last-updated` date from html to avoid changes caused by this
 
 === Sections
 
@@ -79,8 +108,7 @@ The following options are also available:
 * `pass:[:toc: macro:]` -- allows use of the block toc macro [.nobreak]#`toc::[]`# for insertion anywhere in the document
 * `pass:[:toc: left|right]`  -- inserts a side column for the table of contents if screen width allows
 
-
-[#paragraphs]
+[.columnbreak]
 == Paragraphs
 
 === Line Breaks
@@ -108,12 +136,20 @@ Like this:
 
 === Alignment
 
-To align a block, set a role in the form: [.nobreak]`[.text-{left|center|right|justify}]`:
+To align a block, set a role in the form:
+
+  [.text-{left|center|right|justify}]
 
 e.g.
 
   [.text-center]
   This text would be centered
+
+=== Horizontal Rules
+
+To create a horizontal line to separate content, begin a line with the horizontal rule: `'''`
+
+'''
 
 == Text Formatting
 
@@ -128,8 +164,8 @@ Asciidoc has two types of formatting:
 * `pass:[*strong importance/bold*]` -> *strong importance*
 * `pass:[_stress emphasis/italics_]` -> _stress emphasis/italics_
 * `pass:[monospace/typewriter]` -> `monospace/typewriter`
-* Curly quotes: `pass:none["`double`"]`/`pass:none['`single`']` -> "`double`"/'`single`'
-* Highlighting: `pass:none[#highlighted#]` -> #highlighted#
+* `pass:none[#highlighted#]` -> #highlighted#
+* `pass:none["`double`"]`/`pass:none['`single`']` -> "`double`"/'`single`' (curly quotes)
 
 === Unconstrained
 
@@ -137,7 +173,7 @@ Asciidoc has two types of formatting:
 * `pass:[**D**o**N**ot**R**epeat]` -> **D**o**N**ot**R**epeat
 * `pass:[fan__freakin_tastic]` -> fan__freakin__tastic
 * `pass:[```mono``culture]` -> ``mono``culture
-* Highlighting: `pass:none[high##light##ed]` -> high##light##ed
+* `pass:none[high##light##ed]` -> high##light##ed
 
 === Superscript and Subscript
 
@@ -145,8 +181,9 @@ Asciidoc has two types of formatting:
 * `pass:[^Super^script]` -> ^Super^script
 * `pass:[~Sub~script]` -> ~Sub~script
 
-You can use this to write e=mc^2^ and H~2~O but checkout <<Equations>> as well.
+You can use this to write e=mc^2^ and H~2~O but see <<Equations>> as well.
 
+[.columnbreak]
 === Custom Roles
 
 A custom role can be applied using a style applied to hash symbols, like this:
@@ -159,18 +196,23 @@ Use dots between multiple roles, e.g.
 [none]
 * `pass:[[.small.green\]#small text#]` -> [.small.green]#small text#
 
+Some more examples:
+
+* `pass:[[.big\]#some text#]` -> [.big]#some text#
+* `pass:[[.underline\]#some text#]` -> [.underline]#some text#
+// * `pass:[[.overline\]#some text#]` -> [.overline]#some text#
+* `pass:[[.line-through\]#some text#]` -> [.line-through]#some text#
+
 == Comments
 
 Comments are not included in the output and can be useful for audit-trail, review, commentary and outstanding items.
 
- // commented lines begin like this and are not shown in the output
+ // comment lines begin with 2 forward slashes
 
  ////
  This is how we fence
  multi-line comments
  ////
-
-Sometimes in Asciidoc items "`stick together`" (e.g. list items). Use a comment line to separate them.
 
 == Admonitions
 
@@ -192,13 +234,19 @@ Here's an example:
 
 == Links
 
-Some types of links will be automatically identifier (mailto, web URLs). Otherwise use the `\link:<URI>[identifier]` macro.
+Some types of links will be automatically identified (mailto, web URLs). Otherwise use the `\link:<URI>[text]` macro.
 
-  https://example.org/page[A webpage]
-  mailto:hello@example.org[Email to say hello!]
-  link:tel:+123456789[A telephone number]
-  link:../path/to/file.txt[A local file]
-  xref:document.adoc[A sibling document]
+[none]
+* `pass:[https://example.com/page.html[A webpage]]`
+* `pass:[mailto:hello@example.org[Email to say hello!]]`
+* `pass:[link:tel:+123456789[A telephone number]]`
+* `pass:[link:../path/to/file.txt[A local file]]`
+// * `pass:[xref:document.adoc[A sibling document]]` -- covered elsewhere
+
+To link to an anchor within a web page append a # to the web page followed by the section's ID. Like this
+
+  http://example.com/page.html#Note_5[See Note 5]
+
 
 [#lists.columnbreak]
 == Lists -- The Basics
@@ -231,7 +279,7 @@ Like most blocks in Asciidoc, a title can be provided using a [.no-break]#`.<tit
 
 === Ordered
 
-Ordered lists can use numbers but then you must keep them in order yourself. You can start each numbered item with a `.`:
+Auto-number by starting each numbered item with a `.`
 
 ....
   . Step 1
@@ -241,27 +289,38 @@ Ordered lists can use numbers but then you must keep them in order yourself. You
   . Step 3
 ....
 
-A role can be applied on the line before the list using `[arabic|decimal|loweralpha|upperalpha|lowerroman|upperroman|lowergreek]`. The default is 1,2,3... which is `arabic`.
+Ordered lists can use numbers but then you must keep them in order yourself. :
+
+A role can be applied on the line before the list to change the numbering style using `[style]` where style is one of `arabic`, `decimal`, `loweralpha`, `upperalpha`, `lowerroman`, `upperroman`, `lowergreek`.
+
+The default is 1,2,3... which is `arabic`.
+
+// arabic|decimal|loweralpha|upperalpha|lowerroman|upperroman|lowergreek]`.
 
 === Specifying the start
 
 You can specify the start of an ordered list by setting a start attribute after the role or separately e.g.
 
-  .Remember your Roman numerals?
-  [lowerroman,start=4]
-  . is one
-  . is two
-  . is three
-
-or 
-
-  [start=2]
-  . the second
-  . the third
+[.fullwidth.lit]
+[cols="1*<.<2l,1*<.<l",frame="none",grid="cols"]
+|===
+|
+.Remember your Roman numerals?
+[lowerroman,start=4]
+. is one
+. is two
+. is three
+|
+[start=2]
+. the second
+. the third
+|===
 
 Irrespective of the style, `start=` should be followed by a number (like on the keyboard!)
 
-[#anchors.pagebreak]
+Sometimes in Asciidoc items "`stick together`" (e.g. list items). Use a comment line to separate them.
+
+[.pagebreak]
 == Anchors, References and Footnotes
 
 The legacy style is:
@@ -278,13 +337,205 @@ A paragraph (or any block) with an anchor (aka ID) and reftext.
 
 Cross references to other documents:
 
+  xref:another_doc.adoc[Jumps to another document]
   xref:document.adoc#idname[Jumps to anchor in another document].
 
 Finally, footnotesfootnote:[This is the text of the footnote.]:
 
   This paragraph has a footnote.footnote:[This is the text of the footnote.]
 
-[#anchors2.pagebreak]
+== Equations
+
+For beautiful equations, {uri-latex}[LatexMath] and {uri-asciimath}[AsciiMath] are supported using {uri-mathjax}[MathJax].
+Activate support using the document attribute `:stem:` with no value which defaults to AsciiMath.
+To default to LatexMath set a value of `latexmath`, e.g. `:stem: latexmath`.
+
+You can now use the default `stem` macro or the explicit macros for each math language:
+
+[none]
+* `pass:[stem:[sqrt(4)=2]]` -> stem:[sqrt(4)=2]
+* `pass:[asciimath:[sqrt(4)=2]]` -> asciimath:[sqrt(4)=2]
+* `pass:[latexmath:[\sqrt{4}=2]]` -> latexmath:[\sqrt{4}=2]
+
+NOTE: If you have an equation with a right square bracket, escape this character using a backslash
+
+You can also use a delimited pass-through block to explicitly create equations with either AsciiMath or LatexMath.
+
+[.fullwidth.lit]
+[cols="3*<.<l",frame="none",grid="cols"]
+|===
+|
+[stem]
+++++
+sqrt(4) = 2
+++++
+
+|
+[asciimath]
+++++
+sqrt(4) = 2
+++++
+
+|
+[latexmath]
+++++
+\sqrt{4} = 2
+++++
+
+|===
+
+// For equation numbering (only LatexMath supported) set `:eqnums:` in the document header and use the equation container:
+
+// [.fullwidth.lit]
+// [cols="2*<.<",frame="none",grid="cols"]
+// |===
+// l|
+//   [latexmath]
+//   ++++
+//   \begin{equation}
+//   \sqrt{4} = 2
+//   \end{equation}
+//   ++++
+// a|
+// [latexmath]
+// ++++
+// \begin{equation}
+// \sqrt{4} = 2
+// \end{equation}
+// ++++
+// |===
+
+== Media
+
+It's not covered here but there are also the {asciidoctor-user-manual-icon}[icon] and the {asciidoctor-user-manual-audio}[audio] macros.
+
+// === Icons
+
+//   icon:tags[role="blue"] ruby, asciidoctor
+
+// === Audio
+
+//   audio::ocean_waves.mp3[options="autoplay,loop"]
+
+
+=== Images
+
+Asciidoctor supports `jpg`, `png`, `svg` etc. -- basically anything {uri-mdn-web-image-formats}[a browser supports].
+Images can use either the block or inline macro:
+
+[.fullwidth.lit]
+[cols="2*<.<",frame="none",grid="cols",options="header"]
+|===
+|block (standalone)
+|inline (inside text)
+l|image::pic.jpg[]
+l|image:pic2.jpg[]
+|===
+
+The only difference is one or two colons but inline images are within the content flow, block images are like separate paragraphs.
+
+If the document header contains an `imagesdir` then all relative image paths are resolved relative to it. So if the document header contains:
+
+  :imagesdir: media
+
+[.columnbreak]
+Then `some_image.jpg` must be in that folder relative to the document.
+Absolute paths (`C:\images\image.png`) can be used and so can URLsfootnote:[But then the command line or API attribute `allow-uri-read` must be set for security reasons.].
+
+The images macro takes a range of comma-delimited attributes, common options are described below:
+
+// QUESTION: Is attributes really the right name ? !
+
+[.fullwidth.lit]
+[cols="1*<.^l,1*<.^5",frame="none",grid="cols",options="header"]
+|===
+|Attribute
+|Description
+
+|alt
+|First positional, alternative text, e.g. `alt="High mountain"`
+
+|width
+|Second positional, horizontal dimension in % or pixels, e.g. `width=400`
+
+|height
+|Third positional, vertical dimension in % or pixels, e.g. `height=200`
+
+|title
+|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. `title="A mountain sunset"`
+
+|link
+|URI for hyperlink on clicking the image, e.g. `link=https://www.example.com`
+
+|align
+|`[left\|center\|right]` -- for block images only; Align and float are mutually exclusive
+
+|float
+|`[left\|right]` -- for block images only; Align and float are mutually exclusive
+
+|role
+|e.g. `left`, `right`, `th`, `thumb`, `related`, `rel`. Use this to add a style
+
+|id
+|Use this to add an HTML unique identifer. This may be useful for interacting with Javascript.
+
+|===
+
+[TIP]
+--
+Quotes around values are optional unless you need a comma or a trailing space but may help with readability.
+
+The positional arguments don't need the attribute name included if they are in the correct sequence.
+--
+
+// The default Asciidoctor stylesheet implements responsive images (using width-wise scaling).
+
+=== Videos
+
+Like the `image` macro the `video` macro supports a range of {uri-mdn-web-video-formats}[web video formats]. Simply use the macro with a refernece ot the file and any required attributes:
+
+  video::video_file.mp4[width=640, start=60, end=140, options=autoplay]
+
+For using a YouTube or Vimeo, use the identifier in the macro target and the service as the first positional attribute.
+
+  video::rPQoq7ThGAU[youtube]
+  video::67480300[vimeo]
+
+[.fullwidth.lit]
+[cols="1*<.^l,1*<.^5",frame="none",grid="cols",options="header"]
+|===
+|Attribute
+|Description
+
+|poster
+|First positional, can be an image URL to show before user plays the video. Can _also_ be the service: `youtube\|vimeo`
+
+|width
+|Second positional, horizontal dimension in pixels, e.g. `width=400`
+
+|height
+|Third positional, vertical dimension in pixels, e.g. `height=200`
+
+|options 
+|`[autoplay\|loop\|modest\|nocontrols\|nofullscreen]` `modest` reduces YouTube branding.
+
+|title
+|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. `title="A mountain sunset"`
+
+|link
+|URI for hyperlink on clicking the image, e.g. `link=https://www.example.com`
+
+|start\|end
+|start/end time of video in seconds.
+
+// |role
+// |e.g. `left`, `right`, `th`, `thumb`, `related`, `rel`. Use this to add a style
+
+// |id
+// |Use this to add an HTML unique identifer. This may be useful for interacting with Javascript.
+
+|===
+
 == Blocks
 
 --
@@ -356,7 +607,7 @@ comment - content which is not included in the output document
 == Tables
 
 .Table Attributes
-[cols=>1h;2d,width=50%,frame=topbot]
+[cols=>1h;2d,width={iw}%,frame=topbot]
 |===
 | Attribute Name | Values
 
@@ -382,47 +633,7 @@ comment - content which is not included in the output document
 | psv {vbar} csv {vbar} dsv
 |===
 
-== Multimedia
-
-// image::screenshot.png[block image,800,450]
-
-// Press image:reload.svg[reload,16,opts=interactive] to reload the page.
-
-// video::movie.mp4[width=640,start=60,end=140,options=autoplay]
-
-// video::aHjpOzsQ9YI[youtube]
-
-// video::300817511[vimeo]
-
-== Breaks
-
-// thematic break (aka horizontal rule)
----
-
-// page break
-<<<
-
-////
-
-== More
-
-Extensions
-asciidoctor-diagram
-
-Antora
-Hugo
-Jekyll
-
-ToC
-
-////
-
-
-////
-
-Moved -- advanced topics.
-
-=== Includes
+=== The Include Macro
 
 Bring content in from other files
 
@@ -432,127 +643,68 @@ Bring content in from other files
  // define -a allow-uri-read to allow content to be read from URI
  include::https://example.org/installation.adoc[]
 
+== Editors
 
-== Encrypt your Secrets 1 2 3 4 5 6 7 8 9 10
+Lots of editors support Asciidoc and usually offer at least syntax highlighting. Some offer advanced features -- outline views, preview, synchronised scrolling and more!
 
-```
-$ mvn --encrypt-master-password
-Master password: *********
-{encrypted_master_password}
-```
+[.fullwidth.lit]
+[cols="5*^.^",frame="none", grid="none"]
+|===
+|{uri-vs-code}[VS Code]
+|{uri-atom}[Atom]
+|{uri-vim}[Vim]
+|{uri-brackets}[Brackets]
+|{uri-intellij}[IntelliJ]
 
-Store this in `~/.m2/settings-security.xml`
+a| image::vscode-icon-light.png[width={iw},link={uri-vs-code}]
+a| image::atom-editor-icon.svg[width={iw},link={uri-atom}]
+a| image::Vimlogo.svg[width={iw},link={uri-vim}]
+a| image::brackets_icon.svg[width={iw},link={uri-brackets}]
+a| image::intellij-icon.png[width={iw},link={uri-intellij}]
 
-```xml
-<settingsSecurity>
- <master>{encrypted_master_password}</master>
-</settingsSecurity>
-```
-Now encrypt your server password:
+|{uri-geany}[Geany]
+|{uri-asciidocfx}[AsciidocFX]
+|{uri-notepadpp}[Notepad++]
+|{uri-sublimetext}[Sublime +
+Text]
+|{uri-eclipse}[Eclipse]
 
-```
-mvn --encrypt-password
-Master password: *********
-{encrypted_password}
-```
+a| image::geany-icon.svg[width={iw},link={uri-geany}]
+a| image::asciidocfx-icon.png[width={iw},link={uri-asciidocfx}]
+a| image::notepadpp.png[width={iw},link={uri-notepadpp}]
+a| image::sublime-text-icon.png[width={iw},link={uri-sublimetext}]
+a| image::eclipse-icon.png[width={iw},link={uri-eclipse}]
+a| image::intellij-icon.png[width={iw},link={uri-intellij}]
 
-Store this in your `settings.xml` file as follows:
+|===
 
-```xml
-<server>
- <id>my.server</id>
- <username>smaple</username>
- <password>{encrypted_password}</password>
-</server>
-```
+== What's Next
 
-== Don't use passwords in the CLI
+=== Support
 
-Never enter passwords in plain text on the CLI:
+* Check out the {uri-docs}[user manual] for detailed help on any topic
+* Asciidoctor has an active {uri-gitter-asciidoctor}[Gitter channel] for support and questions. You'd be welcome!
+* Asciidoctor is super-extensible allowing overrides to implement custom macros, special types of blocks and even completely different converts. {uri-asciidoctor-user-manual-extensions}[Check it out!]
 
-[source,sh,role=dont]
-----
-$ mvn --encrypt-master-password P@ssw0rd
+=== Other Projects
 
-$ mvn --encrypt-password P@ssw0rd
-----
+* {uri-asciidoctor-diagram}[asciidoctor-diagram] -- embed UML diagrams, create specialised diagrams from text and have them rendered on the fly
+* For `pdf` backend output see {uri-asciidoctor-pdf}[asciidoctor-pdf] or for a full web based stack, see {uri-asciidoctor-pdf-js}[asciidoctor-pdf.js]
+* {uri-revealjs-asciidoctor}[reveal.js] -- Want to make a presentation, check out how to use asciidoctor with the {uri-revealjs}[popular presentation framework]
 
-== Always Use HTTPS
+=== Static Websites
 
-Use HTTPS to connect to remote Maven repositories, to avoid MITM attacks.
+For static websites, consider using:
 
-Ensure your `<repositories>` and `<pluginRepositories>` use https in their URLs.
+[.fullwidth.lit]
+[cols="2*a",grid=none,frame=none]
+|===
+|
+* {uri-jekyll}[Jekyll]
+* {uri-hugo}[Hugo]
+|
+* {uri-antora}[Antora]
+* {uri-middleman}[Middleman]
+|===
 
-== Check Dependency Health
-
-Verify the health of your third-party libraries by confirming they have:
-
-[.do]
-* [x] A team of committers
-* [x] Well documented security policies
-* [x] Regular updates and releases
-
-== Test for Known Vulnerabilities
-
-Do not use Maven dependencies with known vulnerabilities. +
-Use a tool like Snyk to:
-
-[.do]
-* [x] Test your app for known vulnerabilities.
-* [x] Automatically fix issues that exist.
-* [x] Continuously monitor for new vulnerabilities
-
-== Test your Checksums
-
-As part of validating the authenticity of your dependencies,
-test their checksums using the -C flag on Maven commands:
-
-```
-$ mvn -C install
-// fail if checksums don’t match
-
-$ mvn -c install
-// warn if checksums don’t match
-```
-
-== Don't use Properties for Passwords
-
-Never store your secrets in your pom.xml properties.
-
-[source,xml,role=dont]
-----
-<properties>
-  <my.property>P@ssw0rd</my.property>
-</properties>
-----
-
-== Use Maven developers/roles
-
-Use Maven roles to state who should be contacted for security issues.
-
-```xml
-<developers>
- <developer>
-   <id>grander</id>
-   <name>Danny Grander</name>
-   <email>security@your_org.com</email>
-   <roles>
-     <role>security</role>
-   </roles>
- <developer>
-<developers>
-```
-
-== Stay up-to-date
-
-Try to stay on the latest releases of Maven. Check the download page for the latest version.
-
-Avoid Maven 3.0.4 as it ignores certificates for HTTPS connections.
-
-== Check Security Bulletins
-
-Monitor the security bulletins the Apache Maven team publish on the
-https://maven.apache.org/security.html[Maven site].
-
-
-////
+See {uri-static-website-asciidoc-list}[this list] for more options
