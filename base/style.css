@@ -101,7 +101,7 @@ section.content {
   padding-top: 1.2em;
   padding-bottom: 1.2em;
   /* padding: 0; */
-  columns: 4;
+  columns: 5;
   column-rule: 1px solid #bbb;
 }
 
