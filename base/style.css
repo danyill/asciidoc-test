@@ -684,3 +684,7 @@ h2 {
 pre .conum[data-value]{position:relative;top:-.125em}
 b.conum *{color:inherit!important}
 .conum:not([data-value]):empty{display:none}
+
+.emojilarge {
+  font-size: 150%;
+}

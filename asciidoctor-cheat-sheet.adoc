@@ -44,10 +44,12 @@ v 0.10
 :uri-asciidoctor-pdf-js: https://github.com/Mogztter/asciidoctor-pdf.js
 :uri-asciidoctor-pdf: https://github.com/asciidoctor/asciidoctor-pdf
 :uri-asciidoctor-extensions-lab: https://github.com/asciidoctor/asciidoctor-extensions-lab
+:uri-html-entities-html5: https://dev.w3.org/html5/html-author/charref
+:uri-unicode-table: https://unicode-table.com/en
 ifdef::largeVersion[]
 :sectnums:
 endif::[]
-:largeVersion:
+:largeVersion!:
 
 [preface]
 This quick reference is focussed on the HTML backend, but Asciidoctor supports {uri-asciidoctor-output-formats}[many output formats]. For detailed documentation, see the {uri-docs}[user manual].
@@ -193,6 +195,12 @@ Asciidoc has two types of formatting:
 * `pass:[~Sub~script]` -> ~Sub~script
 
 You can use this to write e=mc^2^ and H~2~O but see <<Equations>> as well.
+
+=== HTML Entities and Unicode
+
+Asciidoctor allows {uri-html-entities-html5}[html entities] directly in Asciidoc but we recommend pasting Unicode in directly or using a numeric character reference. So for &#x00A7; instead of +&sect;+ we suggest +&#x00A7;+ or +&#167;+. 
+
+TIP: Use an online website to find key characters, {uri-unicode-table}[here's one] and you'll be away [.emojilarge]#🤣 😁 😸 🤩#
 
 === Custom Roles
 
@@ -415,9 +423,9 @@ a|
 |===
 endif::[]
 
-ifndef::largeVersion[]
-[.pagebreak]
-endif::[]
+// ifndef::largeVersion[]
+// [.pagebreak]
+// endif::[]
 == Media
 
 Only due to space limitations we've not covered the {uri-asciidoctor-user-manual-video}[video], {uri-asciidoctor-user-manual-audio}[audio] and {uri-asciidoctor-user-manual-icon}[icon] macros.
@@ -763,7 +771,68 @@ On GitHub, the HTML output that Asciidoctor emits is run through a postprocessin
 
 On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
 
-[.columnbreak]
+== Escaping Reserved Asciidoc Syntax
+
+Just occasionally, syntax seems through a spanner in the works when you want to use those characters in your text.
+
+The text below doesn't render very well if you want the asterisks and square brackets to appear because they are Asciidoc syntax
+
+  [hi] *hi*
+
+To fix issues like this, we use escaping and pass-through macros.
+
+To escape highlighting or emphasis, one option is to use `+` to escape 
+
+=== Pluses
+
+The following work:
+
+  +[hi] *hi*+
+  ++[hi] *hi*++
+  +++[hi] *hi*+++
+
+=== Passthrough Macros
+
+// TIP: We recommend avoiding backslashes and the use of $ signs.
+
+The inline pass macro is almost always helpful (but not concise or elegant). You write `pass:` followed by a comma delimited list of options (character or the name without spaces):
+
+* c = special characters -- substitutes `&`, `<` and `>` as these are reserved characters in HTML
+* q = quotes -- bold, italic, monospace super/sub-scripts)
+* r = replacements -- e.g. +(C)+ and +->+ and +--+
+* m = macros -- allows inline macros
+* a = attributes -- allows attribute substitution
+* p = post replacements
+
+and then follow with the text you want in square brackets. Some examples:
+
+  The text pass:[<u>underline me</u>] is underlined.
+  pass:attributes[No *bold*, but the backend is {backend}]
+  pass:specialcharacters[Almost No__thing__ works {any} *more*]
+  pass:q,r[But I am a circled C, (C) and should contain *bold* text.]
+
+=== If nothing else...
+
+If nothing else works, there are two other options. First the passthrough block:
+
+  ++++
+  [hi] *hi*
+  ++++
+
+This translates the content directly to the back-end without any modification.
+
+The other is to wrap content in a <<Blocks,block>>  and add the subs attribute:
+
+  [subs=+macros] 
+  ----
+  I better not contain *bold* or _italic_ text.
+  pass:quotes[But I should contain *bold* text.] 
+  ----
+
+
+
+
+// [.columnbreak]
 == The Include Macro
 
 To partition, reuse or populate data sources, use the include macro to bring content from other files or URLs by placing the following in a line:
