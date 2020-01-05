@@ -54,6 +54,9 @@ endif::[]
 [preface]
 This quick reference is focussed on the HTML backend, but Asciidoctor supports {uri-asciidoctor-output-formats}[many output formats]. For detailed documentation, see the {uri-docs}[user manual].
 
+Asciidoctor has an active {uri-gitter-asciidoctor}[Gitter channel] for support and questions. 
+You'd be welcome!
+
 ifdef::largeVersion[]
 toc::[]
 endif::[]
@@ -71,12 +74,7 @@ The header must be flush with left margin:
   v1.0, 2019-01-01: Revision remark
 
 All of these are optional.
-These can also be set using attributes.
-Attributes in Asciidoctor always are:
-
-  :name: value
-
-For example:
+These can also be set using <<Attributes and Conditional Processing,attributes>>, for example:
 
   :doctitle: Wishing Upon A Star
   :author: Galileo Galilei
@@ -157,7 +155,7 @@ To align a block, set a role in the form:
 
   [.text-{left|center|right|justify}]
 
-e.g.
+for example:
 
   [.text-center]
   This text would be centered
@@ -481,7 +479,7 @@ The images macro takes a range of comma-delimited attributes, common options are
 // |Third positional, vertical dimension in % or pixels, e.g. `height=200`
 
 |title
-|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. `title="A mountain sunset"`
+|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. `title="A sunset"`
 
 |link
 |URI for hyperlink on clicking the image, e.g. `link=https://www.example.com`
@@ -627,10 +625,11 @@ If you have a lot of text in an attribute you can make it more readable by makin
 
 You can control content using attributes using the `ifdef`, `ifndef` and `ifeval` macros:
 
-[.fullwidth.lit]
-[cols="1*l,1*2l",frame="none",grid="cols"]
-|===
-|
+// [.fullwidth.lit]
+// [cols="1*l,1*2l",frame="none",grid="cols"]
+// |===
+// |
+
   ifdef::fish[]
   This is included if fish is set
   endif::[]
@@ -638,7 +637,9 @@ You can control content using attributes using the `ifdef`, `ifndef` and `ifeval
   ifndef::fish[]
   This is included if fish is not set
   endif::[]
-|
+
+// |
+
   ifeval::[{fish} == 3]
   If fish has the value 3, this is included
   endif::[]
@@ -651,7 +652,8 @@ You can control content using attributes using the `ifdef`, `ifndef` and `ifeval
   If fish is not set to tuna this  is included
   Note the quotes for strings
   endif::[]
-|===
+
+// |===
 
 == Syntax Highlighting
 
@@ -802,24 +804,22 @@ You can also use the styles mentioned above the horizontal/vertical alignment on
 
 TIP: To use a pipe (|) within the content of a cell without creating a new cell, you can use the `pass:c[{vbar}]` attribute. 
 
-=== Some Examples
+=== An Example
 
   |===
 
   |Column 1, row 1 |Column 2, row 1 |Column 3, row 1 |Column 4, row 1
 
   |Column 1, row 2
-  2.3+|Content in a single cell that spans over rows and columns
+  2.2+|Content in a single cell that spans over rows and columns
   |Column 4, row 2
 
   |Column 1, row 3
   |Column 4, row 3
 
-  |Column 1, row 4
-  |Column 4, row 4
   |===
 
-gives:
+results in:
 
 |===
 
@@ -873,7 +873,7 @@ and then follow with the text you want in square brackets. Some examples:
   pass:specialcharacters[Almost No__thing__ works {any} *more*]
   pass:q,r[But I am a circled C, (C) and should contain *bold* text.]
 
-=== If nothing else...
+=== Controlling Substitutions
 
 If nothing else works, there are two other options. First the passthrough block:
 
@@ -1007,16 +1007,17 @@ a| image::eclipse-icon.png[width={iw},link={uri-eclipse}]
 |===
 endif::[]
 
-== What's Next
+// == What's Next
 
-=== Support
+// === Support
 
-* Check out the {uri-docs}[user manual] for detailed help on any topic
-* Asciidoctor has an active {uri-gitter-asciidoctor}[Gitter channel] for support and questions. You'd be welcome!
+// * Check out the {uri-docs}[user manual] for detailed help on any topic
+
 ifdef::largeVersion[]
 * Asciidoctor is super-extensible allowing overrides to implement custom macros, special types of blocks and even completely different converters. {uri-asciidoctor-user-manual-extensions}[Check it out!] or browse the {uri-asciidoctor-extensions-lab}[extensions lab]
 endif::[]
 
+ifdef::largeVersion[]
 === Other Projects
 
 * {uri-asciidoctor-diagram}[asciidoctor-diagram] -- embed UML diagrams, create specialised diagrams from text and have them rendered on the fly
@@ -1024,6 +1025,7 @@ endif::[]
 * Want to make a presentation? Check out how to use the {uri-revealjs-asciidoctor}[Asciidoctor-friendly reveal.js] -- with the {uri-revealjs}[popular presentation framework]
 ifdef::largeVersion[]
 * If creating a static website, checkout {uri-antora}[Antora], {uri-hugo}[Hugo], {uri-jekyll}[Jekyll] or see {uri-static-website-asciidoc-list}[this list] for more options
+endif::[]
 endif::[]
 
 ifdef::largeVersion[]

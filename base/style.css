@@ -44,11 +44,11 @@ header > a {
 }
 
 header > .wordmark {
-  max-height: 4.7em;
+  max-height: 4em;
 }
 
 header > .website {
-  font-size: 1.6em;
+  font-size: 2em;
   font-weight: 400;
   align-self: end;
 }
@@ -57,7 +57,7 @@ header > .logo {
   /* position: absolute;
   top: 1.4em;
   right: 3em; */
-  max-width: 4.7em;
+  max-width: 4em;
   align-self: end;
 }
 
