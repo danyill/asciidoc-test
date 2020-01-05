@@ -111,6 +111,10 @@ Sections must also be flush with left margin
  ==== Level 3
  ===== etc...
  == Back at Level 1
+ [appendix]
+ == An Appendix
+
+Special sections include a role to define them -- `[abstract]`, `[preface]` and `[appendix]` for example.
 
 === Generating a Table of Contents
 
@@ -200,7 +204,7 @@ You can use this to write e=mc^2^ and H~2~O but see <<Equations>> as well.
 
 Asciidoctor allows {uri-html-entities-html5}[html entities] directly in Asciidoc but we recommend pasting Unicode in directly or using a numeric character reference. So for &#x00A7; instead of +&sect;+ we suggest +&#x00A7;+ or +&#167;+. 
 
-TIP: Use an online website to find key characters, {uri-unicode-table}[here's one] and you'll be away [.emojilarge]#🤣 😁 😸 🤩#
+TIP: Use an online website to find key characters, {uri-unicode-table}[here's one] and you'll be away laughing [.emojilarge]#🤣 😁 😸 🤩#
 
 === Custom Roles
 
@@ -498,7 +502,7 @@ The images macro takes a range of comma-delimited attributes, common options are
 
 [TIP]
 --
-Quotes around values are optional unless you need a comma or a trailing space but may help with readability.
+// Quotes around values are optional unless you need a comma or a trailing space but may help with readability.
 
 The positional arguments don't need the attribute name included if they are in the correct sequence.
 --
@@ -617,7 +621,7 @@ You can set it to a value, a number or a boolean
 
   :fish: tuna
 
-It can be unset with an exclamation at the start or end inside the colons, e.g. `:fish!:` or :!fish:.
+It can be unset with an exclamation at the start or end inside the colons, e.g. `:fish!:` or `:!fish:`.
 
 If you have a lot of text in an attribute you can make it more readable by making it multiline with a `\` at the end of the line.
 
@@ -649,8 +653,6 @@ You can control content using attributes using the `ifdef`, `ifndef` and `ifeval
   endif::[]
 |===
 
-
-[.columnbreak]
 == Syntax Highlighting
 
 If you set a the document attribute `:source-highlighter:` to a valid option (`highlightjs` is one recommended option) then `[source]` blocks can be highlighted by specifying a language immediately after.
@@ -722,26 +724,29 @@ comment - content which is not included in the output document
 
 == Tables
 
-////
-.Table Attributes
-[cols=>1h;2d,width={iw}%,frame=topbot]
+Tables are a block starting and ending with `|===` and with `|` as a cell separator. 
+
+Some important attributes are defined above this:
+
+[.fullwidth.lit]
+[cols="<.^1l,<.^2l",width=100%,frame=none,grid=columns]
 |===
-| Attribute Name | Values
+| Name | Values
 
 | options
 | header,footer,autowidth
 
 | cols
-| colspec[;colspec;...]
+| colspec[,colspec,...]
 
 | grid
-| all \| cols \| rows \| none
+| all\|cols\|rows\|none
 
 | frame
-| all \| sides \| topbot \| none
+| all\|sides\|topbot\|none
 
 | stripes
-| all \| even \| odd \| none
+| all\|even\|odd\|none
 
 | width
 | (0%..100%)
@@ -749,27 +754,84 @@ comment - content which is not included in the output document
 | format
 | psv {vbar} csv {vbar} dsv
 |===
-////
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+The `colspec` is quite intricate for each set of columns:
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+  <no.columns>*<h_alignment>.<v_alignment><width><style>
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+where all of these are optional. 
+The multiplier operator (`*`) allows you to specify the same style for multiple columns.
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+If the columns aren't specified the number of columns is the number used in the first line
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+The alignment values can be `<` = left/top, `^` center/middle or `>` right/bottom
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+The width is just a relative proportion (a percentage or just a number)
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+Style is one of the following: 
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+[.fullwidth.lit]
+[cols="2",frame="none",grid="cols"]
+|===
+a|
+* `a` -- standalone document: allows all block-level elements
+* `e` -- italic/emphasis
+* `h` -- header
+a|
+* `l` -- literal block
+* `m` -- monospaced block
+* `d` -- default style
+* `s` -- strong/bold
+* `v` -- content is like a verse block
+// TODO: Except we haven't mentioned verse blocks.
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+|===
 
-On GitHub, the HTML output that Asciidoctor emits is run through a postprocessing filter that substitutes emoji shortcodes with emoji symbols. That means you can use these shortcodes in the value of the attribute:
+To put the same content in some cells you can specify this before the cell separator:
+
+  3*| Same content in three columns.
+
+To merge cells horizontally or vertically, before the cell separator:
+
+  3+|  Three columns merged horizontally
+  .2+| Two rows merged vertically
+
+You can also use the styles mentioned above the horizontal/vertical alignment on an individual cell:
+
+  ^.^s| middle and center aligned and strong/bold
+
+TIP: To use a pipe (|) within the content of a cell without creating a new cell, you can use the `pass:c[{vbar}]` attribute. 
+
+=== Some Examples
+
+  |===
+
+  |Column 1, row 1 |Column 2, row 1 |Column 3, row 1 |Column 4, row 1
+
+  |Column 1, row 2
+  2.3+|Content in a single cell that spans over rows and columns
+  |Column 4, row 2
+
+  |Column 1, row 3
+  |Column 4, row 3
+
+  |Column 1, row 4
+  |Column 4, row 4
+  |===
+
+gives:
+
+|===
+
+|Column 1, row 1 |Column 2, row 1 |Column 3, row 1 |Column 4, row 1
+
+|Column 1, row 2
+2.2+|Content in a single cell that spans over rows and columns
+|Column 4, row 2
+
+|Column 1, row 3
+|Column 4, row 3
+|===
 
 == Escaping Reserved Asciidoc Syntax
 
@@ -821,7 +883,7 @@ If nothing else works, there are two other options. First the passthrough block:
 
 This translates the content directly to the back-end without any modification.
 
-The other is to wrap content in a <<Blocks,block>>  and add the subs attribute:
+The other is to wrap content in a <<Blocks,block>>  and add the `subs` attribute:
 
   [subs=+macros] 
   ----
@@ -829,8 +891,19 @@ The other is to wrap content in a <<Blocks,block>>  and add the subs attribute:
   pass:quotes[But I should contain *bold* text.] 
   ----
 
+When you set the subs attribute on a block, you automatically remove all of its default substitutions. 
 
+For example, if you set `subs` on a literal block, and assign it a value of `a`, only attributes are substituted. The verbatim substitution will not be applied. 
+To remedy this situation, Asciidoctor provides a syntax to append or remove substitutions instead of replacing them outright.
 
+You can add or remove a substitution from the default substitution list using the plus (`+`) and minus (`-`) modifiers. 
+These allow incremental substitutions.
+
+* `<substitution>+` -- prepends the substitution to the default list
+* `+<substitution>` -- appends the substitution to the default list
+* `-<substitution>` -- removes the substitution from the default list
+
+The default list is the substitutions in the order shown <<Passthrough Macros, above>>, from first to last:  `c`,`q`,`r`,`m`,`a`, `p`
 
 // [.columnbreak]
 == The Include Macro
