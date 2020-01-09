@@ -5,10 +5,10 @@ v 0.10
 :sectanchors:
 :stem:
 :imagesdir: media
-:source-highlighter: highlightjs
+// :source-highlighter: highlightjs
 :toc: macro
 // icon widths
-:iw: 30 
+:iw: 30
 :uri-ventilated-prose: https://vanemden.wordpress.com/2009/01/01/ventilated-prose/
 :uri-vcses: https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
 :uri-vs-code: https://marketplace.visualstudio.com/items?itemName=joaompinto.asciidoctor-vscode
@@ -54,7 +54,7 @@ endif::[]
 [preface]
 This quick reference is focussed on the HTML backend, but Asciidoctor supports {uri-asciidoctor-output-formats}[many output formats]. For detailed documentation, see the {uri-docs}[user manual].
 
-Asciidoctor has an active {uri-gitter-asciidoctor}[Gitter channel] for support and questions. 
+Asciidoctor has an active {uri-gitter-asciidoctor}[Gitter channel] for support and questions.
 You'd be welcome!
 
 ifdef::largeVersion[]
@@ -69,23 +69,33 @@ endif::[]
 
 The header must be flush with left margin:
 
-  = Document Title
-  Author Name <author@example.org>
-  v1.0, 2019-01-01: Revision remark
+[source,asciidoc]
+----
+= Document Title
+Author Name <author@example.org>
+v1.0, 2019-01-01: Revision remark
+----
 
 All of these are optional.
 These can also be set using <<Attributes and Conditional Processing,attributes>>, for example:
 
-  :doctitle: Wishing Upon A Star
-  :author: Galileo Galilei
-  :email: stars@universe.com
-  :revnumber: v1.0
-  :revdate: 2019-01-01
-  :revremark: First edition
+[source,asciidoc]
+----
+== asdf
+:doctitle: Wishing Upon A Stars
+:author: Galileo Galilei
+:email: stars@universe.com
+:revnumber: v1.0
+:revdate: 2019-01-01
+:revremark: First edition
+----
+
+The first blank line in the document marks the end of the header
 
 === Document-Wide Attributes
 
-After the title, author, version and date information, document-wide attributes can be set.
+After the title, author, version and date information, document-wide attributes can be set in the header.
+
 These can be any arbitrary `:key: value` but some have special meaning and turn on document features.
 
 Here are some commonly used attributes.
@@ -103,14 +113,17 @@ Here are some commonly used attributes.
 
 Sections must also be flush with left margin
 
- = Document Title (Level 0)
- == Level 1
- === Level 2
- ==== Level 3
- ===== etc...
- == Back at Level 1
- [appendix]
- == An Appendix
+[source,asciidoc]
+----
+= Document Title (Level 0)
+== Level 1
+=== Level 2
+==== Level 3
+===== etc...
+== Back at Level 1
+[appendix]
+== An Appendix
+----
 
 Special sections include a role to define them -- `[abstract]`, `[preface]` and `[appendix]` for example.
 
@@ -136,9 +149,12 @@ It works well with {uri-vcses}[VCSes].
 
 Set the `hardbreaks` option to preserve line breaks.
 
-  [%hardbreaks]
-  This paragraph carries the `hardbreaks` option.
-  Line breaks are now preserved.
+[source,asciidoc]
+----
+[%hardbreaks]
+This paragraph has the `hardbreaks` option.
+Line breaks are now preserved.
+----
 
 For a "`one-off`" line break, at the end use a space and a `+` +
 to break the line.
@@ -157,8 +173,11 @@ To align a block, set a role in the form:
 
 for example:
 
-  [.text-center]
-  This text would be centered
+[source,asciidoc]
+----
+[.text-center]
+This text would be centered
+----
 
 === Horizontal Rules
 
@@ -200,7 +219,7 @@ You can use this to write e=mc^2^ and H~2~O but see <<Equations>> as well.
 
 === HTML Entities and Unicode
 
-Asciidoctor allows {uri-html-entities-html5}[html entities] directly in Asciidoc but we recommend pasting Unicode in directly or using a numeric character reference. So for &#x00A7; instead of +&sect;+ we suggest +&#x00A7;+ or +&#167;+. 
+Asciidoctor allows {uri-html-entities-html5}[html entities] directly in Asciidoc but we recommend pasting Unicode in directly or using a numeric character reference. So for &#x00A7; instead of +&sect;+ we suggest +&#x00A7;+ or +&#167;+.
 
 TIP: Use an online website to find key characters, {uri-unicode-table}[here's one] and you'll be away laughing [.emojilarge]#🤣 😁 😸 🤩#
 
@@ -227,12 +246,16 @@ Some more examples:
 
 Comments are not included in the output and can be useful for audit-trail, review, commentary and outstanding items.
 
- // comment lines begin with 2 forward slashes
 
- ////
- This is how we fence
- multi-line comments
- ////
+[source,asciidoc]
+----
+// single comments begin with 2 fwd slashes
+
+////
+This is how we fence
+multi-line comments
+////
+----
 
 == Admonitions
 
@@ -244,28 +267,41 @@ You can also fence an admonition using `====` and set a title by starting a line
 
 Here's an example:
 
-  [IMPORTANT]
-  .Feeding the Werewolves
-  ====
-  Werewolves are hardy community members but remember to avoid chocolate.
+[source,asciidoc]
+----
+[IMPORTANT]
+.Feeding the Werewolves
+====
+Werewolves are hardy community members.
+However some food is tricky.
+Avoid:
 
-  They are also lactose intolerant so avoid dairy.
-  ====
+* Chocolate
+* Dairy
+
+====
+----
 
 == Links
 
 Some types of links will be automatically identified (mailto, web URLs). Otherwise use the `\link:<URI>[text]` macro.
 
-[none]
-* `pass:[https://example.com/page.html[A webpage]]`
-* `pass:[mailto:hello@example.org[Email to say hello!]]`
-* `pass:[link:tel:+123456789[A telephone number]]`
-* `pass:[link:../path/to/file.txt[A local file]]`
-// * `pass:[xref:document.adoc[A sibling document]]` -- covered elsewhere
+[source,asciidoc]
+----
+https://example.com/page.html[A webpage]
+mailto:hello@example.org[Email to say hello!]
+link:tel:+123456789[A telephone number]
+link:../path/to/file.txt[A local file]
+xref:document.adoc[A sibling document]
+----
 
 To link to an anchor within a web page append a # to the web page followed by the section's ID. Like this
 
-  http://example.com/page.html#Note_5[See Note 5]
+
+[source,asciidoc]
+----
+http://test.com/page.html#Note_5[See Note 5]
+----
 
 [#lists]
 == Lists -- The Basics
@@ -276,37 +312,42 @@ You can mix and match with unordered and ordered lists. Here's how they work:
 
 Unordered lists can use `*` or `-` characters but hyphens only work for single level lists.
 
-....
-  * level 1
-  ** level 2
-  *** level 3
-  **** etc.
-  * back at level 1
-  +
-  Use the + at the start of a line - a list continuation to attach multi-line text to a list item.
-....
+[source,asciidoc]
+----
+* level 1
+** level 2
+*** level 3
+**** etc.
+* back at level 1
++
+Use the + at the start of a line - a list continuation to attach multi-line text to a list item.
+----
 
 A role can be applied on the line before the list using `[square|circle|disc|none|unstyled]`. The default is a bullet.
 
 Like most blocks in Asciidoc, a title can be provided using a [.no-break]#`.<title>`# before the content (and role). Here's an example:
 
+[source,asciidoc]
+----
 .A clever title
 [square]
 * Here we are, using squares
 * We wrote `[square]` on the line before the first `*`
 * And `.A clever title` on the line above that
+----
 
 === Ordered
 
 Auto-number by starting each numbered item with a `.`
 
-....
-  . Step 1
-  . Step 2
-  .. Step 2a
-  .. Step 2b
-  . Step 3
-....
+[source,asciidoc]
+----
+. Step 1
+. Step 2
+.. Step 2a
+.. Step 2b
+. Step 3
+----
 
 Ordered lists can use numbers but then you must keep them in order yourself. :
 
@@ -321,18 +362,24 @@ The default is 1,2,3... which is `arabic`.
 You can specify the start of an ordered list by setting a start attribute after the role or separately e.g.
 
 [.fullwidth.lit]
-[cols="1*<.<2l,1*<.<l",frame="none",grid="cols"]
+[cols="1*<.<2a,1*<.<a",frame="none",grid="cols"]
 |===
 |
+[source,asciidoc]
+----
 .Remember your Roman numerals?
 [lowerroman,start=4]
 . is one
 . is two
 . is three
+----
 |
+[source,asciidoc]
+----
 [start=2]
 . the second
 . the third
+----
 |===
 
 Irrespective of the style, `start=` should be followed by a number (like on the keyboard!)
@@ -343,24 +390,39 @@ Sometimes in Asciidoc items "`stick together`" (e.g. list items). Use a comment 
 
 The legacy style is:
 
-  [[idname,reference text]]
+[source,asciidoc]
+----
+[[idname,reference text]]
+----
 
 or written using normal block attributes as
 
-  [#idname,reftext=reference text]`
+[source,asciidoc]
+----
+[#idname,reftext=reference text]`
+----
 
 A paragraph (or any block) with an anchor (aka ID) and reftext.
 
-  See <<idname>> or <<idname,optional text of internal link>>.
+[source,asciidoc]
+----
+See <<idname>> or <<idname,optional text of internal link>>.
+----
 
 Cross references to other documents:
 
-  xref:another_doc.adoc[Jumps to another document]
-  xref:document.adoc#idname[Jumps to anchor in another document].
+[source,asciidoc]
+----
+xref:another_doc.adoc[Jumps to another document]
+xref:document.adoc#idname[Jumps to anchor in another document].
+----
 
 Finally, footnotesfootnote:[This is the text of the footnote.]:
 
-  This paragraph has a footnote.footnote:[This is the text of the footnote.]
+[source,asciidoc]
+----
+This paragraph has a footnote.footnote:[This is the text of the footnote.]
+----
 
 == Equations
 
@@ -376,6 +438,8 @@ You can now use the default `stem` macro or the explicit macros for each math la
 * `pass:[latexmath:[\sqrt{4}=2]]` -> latexmath:[\sqrt{4}=2]
 
 NOTE: If you have an equation with a right square bracket, escape this character using a backslash
+
+// This is not entirely consistent with the escaping advice provided later...
 
 You can also use a delimited pass-through block to explicitly create equations with either AsciiMath or LatexMath.
 
@@ -539,7 +603,7 @@ For YouTube or Vimeo, use the identifier in the macro target and the service as 
 // |Third positional, vertical dimension in pixels, e.g. `height=200`
 
 |options
-|`[allowbreak]#[autoplay\|loop\|modest\|nocontrols\|nofullscreen]#` 
+|`[allowbreak]#[autoplay\|loop\|modest\|nocontrols\|nofullscreen]#`
 `modest` reduces YouTube branding.
 
 |title
@@ -679,7 +743,7 @@ a|
 [source,python]
 ----
 print('hello world')
-i = 1 # <1> 
+i = 1 # <1>
 # i can add
 i = i + 1
 ----
@@ -726,7 +790,7 @@ comment - content which is not included in the output document
 
 == Tables
 
-Tables are a block starting and ending with `|===` and with `|` as a cell separator. 
+Tables are a block starting and ending with `|===` and with `|` as a cell separator.
 
 Some important attributes are defined above this:
 
@@ -761,7 +825,7 @@ The `colspec` is quite intricate for each set of columns:
 
   <no.columns>*<h_alignment>.<v_alignment><width><style>
 
-where all of these are optional. 
+where all of these are optional.
 The multiplier operator (`*`) allows you to specify the same style for multiple columns.
 
 If the columns aren't specified the number of columns is the number used in the first line
@@ -770,7 +834,7 @@ The alignment values can be `<` = left/top, `^` center/middle or `>` right/botto
 
 The width is just a relative proportion (a percentage or just a number)
 
-Style is one of the following: 
+Style is one of the following:
 
 [.fullwidth.lit]
 [cols="2",frame="none",grid="cols"]
@@ -802,7 +866,7 @@ You can also use the styles mentioned above the horizontal/vertical alignment on
 
   ^.^s| middle and center aligned and strong/bold
 
-TIP: To use a pipe (|) within the content of a cell without creating a new cell, you can use the `pass:c[{vbar}]` attribute. 
+TIP: To use a pipe (|) within the content of a cell without creating a new cell, you can use the `pass:c[{vbar}]` attribute.
 
 === An Example
 
@@ -843,7 +907,7 @@ The text below doesn't render very well if you want the asterisks and square bra
 
 To fix issues like this, we use escaping and pass-through macros.
 
-To escape highlighting or emphasis, one option is to use `+` to escape 
+To escape highlighting or emphasis, one option is to use `+` to escape
 
 === Pluses
 
@@ -885,18 +949,18 @@ This translates the content directly to the back-end without any modification.
 
 The other is to wrap content in a <<Blocks,block>>  and add the `subs` attribute:
 
-  [subs=+macros] 
+  [subs=+macros]
   ----
   I better not contain *bold* or _italic_ text.
-  pass:quotes[But I should contain *bold* text.] 
+  pass:quotes[But I should contain *bold* text.]
   ----
 
-When you set the subs attribute on a block, you automatically remove all of its default substitutions. 
+When you set the subs attribute on a block, you automatically remove all of its default substitutions.
 
-For example, if you set `subs` on a literal block, and assign it a value of `a`, only attributes are substituted. The verbatim substitution will not be applied. 
+For example, if you set `subs` on a literal block, and assign it a value of `a`, only attributes are substituted. The verbatim substitution will not be applied.
 To remedy this situation, Asciidoctor provides a syntax to append or remove substitutions instead of replacing them outright.
 
-You can add or remove a substitution from the default substitution list using the plus (`+`) and minus (`-`) modifiers. 
+You can add or remove a substitution from the default substitution list using the plus (`+`) and minus (`-`) modifiers.
 These allow incremental substitutions.
 
 * `<substitution>+` -- prepends the substitution to the default list

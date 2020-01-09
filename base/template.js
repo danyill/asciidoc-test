@@ -57,6 +57,7 @@ module.exports = {
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="./base/prism.css" rel="stylesheet">
 <link href="./base/style.css" rel="stylesheet">
 </head>
 <body>
@@ -74,9 +75,7 @@ ${node.getContent()}
 ${footnotes(node)}
 </section>
 ${stemContent.content(node)}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-<script>hljs.initHighlighting()</script>
+<script src="./base/prism.js"></script>
 </body>
 </html>`
 }
