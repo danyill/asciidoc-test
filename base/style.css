@@ -601,7 +601,7 @@ table.fullwidth {
 
 table.tableblock{max-width:100%;border-collapse:separate}
 p.tableblock:last-child{margin-bottom:0}
-td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+/* td.tableblock>.content>:last-child{margin-bottom:-1.25em} */
 td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
 table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
@@ -639,7 +639,7 @@ table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr
 
 table.tableblock{max-width:100%;border-collapse:separate}
 p.tableblock:last-child{margin-bottom:0}
-td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+/* td.tableblock>.content>:last-child{margin-bottom:-1.25em} */
 td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
 table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
@@ -720,6 +720,50 @@ pre.language-asciidoc {
   margin-bottom: 0;
 }
 
+code.language-asciidoc.inline {
+  font-size: 1em;
+}
+
 code.language-asciidoc {
   font-size: 1.2em;
+}
+
+code.language-asciidoc >* span.token.bold {
+  font-weight: normal;
+}
+
+code.language-asciidoc >* span.token.italic {
+  font-style: normal;
+}
+
+code.language-asciidoc >* span.token.punctuation {
+  color: black;
+}
+
+code.language-asciidoc > span.token.punctuation {
+  color: black;
+}
+
+code.language-asciidoc {
+  white-space: pre-wrap;
+}
+
+.ad-attribute { 
+  color: #07a;
+}
+
+.ad-key {
+  color: #e90;
+}
+
+.ad-eq {
+  color: #9a6e3a;
+}
+
+.ad-val {
+  color: #07a
+}
+
+.ad-macro {
+  color: #DD4A68
 }

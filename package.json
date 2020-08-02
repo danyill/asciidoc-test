@@ -3,5 +3,9 @@
   "version": "0.10.0",
   "devDependencies": {
     "mathjax": "3.0.0"
+  },
+  "dependencies": {
+    "@asciidoctor/core": "^2.2.0",
+    "asciidoctor-pdf": "^1.0.0-alpha.8"
   }
 }

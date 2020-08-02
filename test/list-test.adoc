@@ -1,0 +1,10 @@
+[square]
+.A swish title
+* First level is a square
+* OK
++
+--
+[none]
+** Second level, a disc!
+** haha
+--

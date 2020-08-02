@@ -260,3 +260,7 @@ Command to wrap with pass through
 Command to get attributes
 
 Document special paged css in project
+
+
+echo fs.inotify.max_user_watches=16384 | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p

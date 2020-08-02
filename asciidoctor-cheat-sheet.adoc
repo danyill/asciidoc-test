@@ -1,6 +1,6 @@
-= Asciidoctor Quick Reference: HTML
+= Asciidoc Quick Reference: HTML
 Daniel Mulholland
-v 0.10
+v 0.20
 :icons: font
 :sectanchors:
 :stem:
@@ -55,7 +55,7 @@ endif::[]
 This quick reference is focussed on the HTML backend, but Asciidoctor supports {uri-asciidoctor-output-formats}[many output formats]. For detailed documentation, see the {uri-docs}[user manual].
 
 Asciidoctor has an active {uri-gitter-asciidoctor}[Gitter channel] for support and questions.
-You'd be welcome!
+Please join in.
 
 ifdef::largeVersion[]
 toc::[]
@@ -81,13 +81,13 @@ These can also be set using <<Attributes and Conditional Processing,attributes>>
 
 [source,asciidoc]
 ----
-== asdf
-:doctitle: Wishing Upon A Stars
+== Starry Messenger
+:doctitle: Sidereal Messenger
 :author: Galileo Galilei
 :email: stars@universe.com
 :revnumber: v1.0
-:revdate: 2019-01-01
-:revremark: First edition
+:revdate: 1610-03-13
+:revremark: Original edition
 ----
 
 The first blank line in the document marks the end of the header
@@ -96,17 +96,17 @@ The first blank line in the document marks the end of the header
 
 After the title, author, version and date information, document-wide attributes can be set in the header.
 
-These can be any arbitrary `:key: value` but some have special meaning and turn on document features.
+These can be any arbitrary src:asciidoc[:key: value] but some have special meaning and turn on document features.
 
 Here are some commonly used attributes.
 
 [none]
-* `pass:[:sectanchors:]` -- creates an empty link (a section entity, §) visible when hovering just left of the section title
-* `pass:[:sectlinks:]` -- makes each section title a link
-* `pass:[:sectnums:]` -- numbers all sections
-* `pass:[:sectnumlevels: 3]` -- determines the depth of numbering. Default is 3
-* `pass:[:nofooter:]` -- remove footer at bottom of document
-* `pass:[:icons: font]` -- Enable FontAwesome to support admonitions, callouts and icons
+* src:asciidoc[:sectanchors:] -- creates an empty link (a section entity, §) visible when hovering just left of the section title
+* src:asciidoc[:sectlinks:] -- makes each section title a link
+* src:asciidoc:[:sectnums:] -- numbers all sections
+* src:asciidoc[:sectnumlevels: 3] -- determines the depth of numbering. Default is 3
+* src:asciidoc[:nofooter:] -- remove footer at bottom of document
+* src:asciidoc[:icons: font] -- Enable FontAwesome to support admonitions, callouts and icons
 // * `pass:[:reproducible:]` -- Removes `last-updated` date from html to avoid changes caused by this
 
 === Sections
@@ -125,17 +125,17 @@ Sections must also be flush with left margin
 == An Appendix
 ----
 
-Special sections include a role to define them -- `[abstract]`, `[preface]` and `[appendix]` for example.
+Special sections include a role to define them -- src:asciidoc[[abstract\]], src:asciidoc[[preface\]] and src:asciidoc[[appendix\]] for example.
 
 === Generating a Table of Contents
 
-In the document header, set `:toc:` and a table of contents is inserted directly below the document header.
+In the document header, set src:asciidoc[:toc:] and a table of contents is inserted directly below the document header.
 The following options are also available:
 
 [none]
-* `pass:[:toc: preamble]` -- inserts the TOC just below the preamble
-* `pass:[:toc: macro:]` -- allows use of the block toc macro [.nobreak]#`toc::[]`# for insertion anywhere in the document
-* `pass:[:toc: left|right]`  -- inserts a side column for the table of contents if screen width allows
+* src:asciidoc[:toc: preamble] -- inserts the TOC just below the preamble
+* src:asciidoc[:toc: macro:] -- allows use of the block toc macro  src:asciidoc[toc::[\]] for insertion anywhere in the document
+* src:asciidoc[:toc: left|right] -- inserts a side column for the table of contents if screen width allows
 
 == Paragraphs
 
@@ -160,16 +160,22 @@ For a "`one-off`" line break, at the end use a space and a `+` +
 to break the line.
 
 Indenting with one or more spaces creates a literal paragraph.
-This disables text formatting, preserves spaces and line breaks, and is displayed in a monospaced font.
+This disables text formatting, preserves spaces and line breaks, and is displayed indented in a monospaced font.
 Like this:
 
+[source,asciidoc]
+----
   C:\Program Files\SomethingAwesome.exe
+----
 
 === Alignment
 
 To align a block, set a role in the form:
 
+[source,asciidoc]
+----
   [.text-{left|center|right|justify}]
+----
 
 for example:
 
@@ -181,7 +187,7 @@ This text would be centered
 
 === Horizontal Rules
 
-To create a horizontal line to separate content, begin a line with the horizontal rule: `'''`
+To create a horizontal line to separate content, begin a line with the horizontal rule: src:asciidoc[''']
 
 '''
 
@@ -195,25 +201,27 @@ Asciidoc has two types of formatting:
 === Constrained
 
 [none]
-* `pass:[*strong importance/bold*]` -> *strong importance*
-* `pass:[_stress emphasis/italics_]` -> _stress emphasis/italics_
-* `pass:[monospace/typewriter]` -> `monospace/typewriter`
-* `pass:none[#highlighted#]` -> #highlighted#
-* `pass:none["`double`"]`/`pass:none['`single`']` -> "`double`"/'`single`' (curly quotes)
+
+* pass:m[src:asciidoc[*strong/bold*\]] -> *strong/bold*
+* pass:m[src:asciidoc[_italics/emphasis_\]] -> _italics/emphasis_
+* pass:m[src:asciidoc[`monospace`\]] -> `monospace`
+* pass:m[src:asciidoc[#highlighted#\]] -> #highlighted#
+* pass:m[src:asciidoc["`double`"\]] -> "`double`" (curly quotes)
+* pass:m[src:asciidoc['`single`'\]] -> '`single`' (curly quotes)
 
 === Unconstrained
 
 [none]
-* `pass:[**D**o**N**ot**R**epeat]` -> **D**o**N**ot**R**epeat
-* `pass:[fan__freakin_tastic]` -> fan__freakin__tastic
-* `pass:[```mono``culture]` -> ``mono``culture
-* `pass:none[high##light##ed]` -> high##light##ed
+* pass:m[src:asciidoc[**D**o**N**ot**R**epeat\]] -> **D**o**N**ot**R**epeat
+* pass:m[src:asciidoc[fan__freakin__tastic\]] -> fan__freakin__tastic
+* pass:m[src:asciidoc[``mono``culture\]] -> ``mono``culture
+* pass:m[src:asciidoc[high##light##ed\]] -> high##light##ed
 
 === Superscript and Subscript
 
 [none]
-* `pass:[^Super^script]` -> ^Super^script
-* `pass:[~Sub~script]` -> ~Sub~script
+* pass:m[src:asciidoc[^Super^script\]] -> ^Super^script
+* pass:m[src:asciidoc[~Sub~script\]] -> ~Sub~script
 
 You can use this to write e=mc^2^ and H~2~O but see <<Equations>> as well.
 
@@ -228,19 +236,19 @@ TIP: Use an online website to find key characters, {uri-unicode-table}[here's on
 A custom role can be applied using a style applied to hash symbols, like this:
 
 [none]
-* `pass:[[small\]#small text#]` -> [small]#small text#
+* pass:m[src:asciidoc[[small\\]#small text#\]] -> [small]#small text#
 
 Use dots between multiple roles, e.g.
 
 [none]
-* `pass:[[.small.green\]#small text#]` -> [.small.green]#small text#
+* pass:m[src:asciidoc[[.small.green\\]#small text#\]] -> [.small.green]#small text#
 
 Some more examples:
 
-* `pass:[[.big\]#some text#]` -> [.big]#some text#
-* `pass:[[.underline\]#some text#]` -> [.underline]#some text#
+* pass:m[src:asciidoc[[.big\\]#some text#\]] -> [.big]#some text#
+* pass:m[src:asciidoc[[.underline\\]#some text#\]] -> [.underline]#some text#
 // * `pass:[[.overline\]#some text#]` -> [.overline]#some text#
-* `pass:[[.line-through\]#some text#]` -> [.line-through]#some text#
+* pass:m[src:asciidoc[[.line-through\\]#some text#\]] -> [.line-through]#some text#
 
 == Comments
 
@@ -249,11 +257,11 @@ Comments are not included in the output and can be useful for audit-trail, revie
 
 [source,asciidoc]
 ----
-// single comments begin with 2 fwd slashes
+// single comments begin with 2 slashes
 
 ////
-This is how we fence
-multi-line comments
+This is how we fence multi-line comments
+TODO: Consider learning grammar.
 ////
 ----
 
@@ -284,7 +292,7 @@ Avoid:
 
 == Links
 
-Some types of links will be automatically identified (mailto, web URLs). Otherwise use the `\link:<URI>[text]` macro.
+Some types of links will be automatically identified (mailto, web URLs). Otherwise use the src:asciidoc[pass:[link:URI[text\]]] macro.
 
 [source,asciidoc]
 ----
@@ -323,9 +331,10 @@ Unordered lists can use `*` or `-` characters but hyphens only work for single l
 Use the + at the start of a line - a list continuation to attach multi-line text to a list item.
 ----
 
-A role can be applied on the line before the list using `[square|circle|disc|none|unstyled]`. The default is a bullet.
+A role can be applied on the line before the list using src:asciidoc[[square|circle|disc|none|unstyled\]]. 
+The default is a bullet.
 
-Like most blocks in Asciidoc, a title can be provided using a [.no-break]#`.<title>`# before the content (and role). Here's an example:
+Just like most other blocks in Asciidoc, a title can be provided using a src:asciidoc[.Title] before the content (and role). Here's an example:
 
 [source,asciidoc]
 ----
@@ -349,11 +358,11 @@ Auto-number by starting each numbered item with a `.`
 . Step 3
 ----
 
-Ordered lists can use numbers but then you must keep them in order yourself. :
+Ordered lists can use numbers but then you must keep them in order yourself.
 
-A role can be applied on the line before the list to change the numbering style using `[style]` where style is one of `arabic`, `decimal`, `loweralpha`, `upperalpha`, `lowerroman`, `upperroman`, `lowergreek`.
+A role can be applied on the line before the list to change the numbering style using src:asciidoc[[style\]] where style is one of [.ad-attribute]#`arabic`#, [ad-attribute]#`decimal`#, [ad-attribute]#`loweralpha`#, [ad-attribute]#`upperalpha`#, [ad-attribute]#`lowerroman`#, [ad-attribute]#`upperroman`#, [ad-attribute]#`lowergreek`#.
 
-The default is 1,2,3... which is `arabic`.
+The default is 1,2,3... which is [ad-attribute]#`arabic`#.
 
 // arabic|decimal|loweralpha|upperalpha|lowerroman|upperroman|lowergreek]`.
 
@@ -367,7 +376,7 @@ You can specify the start of an ordered list by setting a start attribute after 
 |
 [source,asciidoc]
 ----
-.Remember your Roman numerals?
+.Remember Roman numerals?
 [lowerroman,start=4]
 . is one
 . is two
@@ -413,8 +422,8 @@ Cross references to other documents:
 
 [source,asciidoc]
 ----
-xref:another_doc.adoc[Jumps to another document]
-xref:document.adoc#idname[Jumps to anchor in another document].
+xref:another_doc.adoc[Jump to another doc]
+xref:document.adoc#idname[Jumps to anchor]
 ----
 
 Finally, footnotesfootnote:[This is the text of the footnote.]:
@@ -427,15 +436,15 @@ This paragraph has a footnote.footnote:[This is the text of the footnote.]
 == Equations
 
 For beautiful equations, {uri-latex}[LatexMath] and {uri-asciimath}[AsciiMath] are supported using {uri-mathjax}[MathJax].
-Activate support using the document attribute `:stem:` with no value which defaults to AsciiMath.
-To default to LatexMath set a value of `latexmath`, e.g. `:stem: latexmath`.
+Activate support using the document attribute src:asciidoc[:stem:] with no value which defaults to AsciiMath.
+To default to LatexMath set a value of `latexmath`, e.g. src:asciidoc[:stem: latexmath]
 
 You can now use the default `stem` macro or the explicit macros for each math language:
 
 [none]
-* `pass:[stem:[sqrt(4)=2]]` -> stem:[sqrt(4)=2]
-* `pass:[asciimath:[sqrt(4)=2]]` -> asciimath:[sqrt(4)=2]
-* `pass:[latexmath:[\sqrt{4}=2]]` -> latexmath:[\sqrt{4}=2]
+* src:asciidoc[pass:[stem:[sqrt(4)=2]\]] -> stem:[sqrt(4)=2]
+* src:asciidoc[pass:[asciimath:[sqrt(4)=2]\]] -> asciimath:[sqrt(4)=2]
+* src:asciidoc[pass:[latexmath:[sqrt{4}=2]\]] -> latexmath:[\sqrt{4}=2]
 
 NOTE: If you have an equation with a right square bracket, escape this character using a backslash
 
@@ -446,39 +455,48 @@ You can also use a delimited pass-through block to explicitly create equations w
 [.fullwidth.lit]
 [cols="3*<.<l",frame="none",grid="cols"]
 |===
-|
+a|
+[source,asciidoc]
+----
 [stem]
 ++++
 sqrt(4) = 2
 ++++
-
-|
+----
+a|
+[source,asciidoc]
+----
 [asciimath]
 ++++
 sqrt(4) = 2
 ++++
-
-|
+----
+a|
+[source,asciidoc]
+----
 [latexmath]
 ++++
 \sqrt{4} = 2
 ++++
-
+----
 |===
 
 ifdef::largeVersion[]
-For equation numbering (only LatexMath supported) set `:eqnums:` in the document header and use the equation container:
+For equation numbering (only LatexMath supported) set src:asciidoc[:eqnums:] in the document header and use the equation container:
 
 [.fullwidth.lit]
 [cols="2*<.<",frame="none",grid="cols"]
 |===
 l|
-  [latexmath]
-  ++++
-  \begin{equation}
-  \sqrt{4} = 2
-  \end{equation}
-  ++++
+[source,asciidoc]
+----
+[latexmath]
+++++
+\begin{equation}
+\sqrt{4} = 2
+\end{equation}
+++++
+----
 a|
 [latexmath]
 ++++
@@ -511,14 +529,17 @@ Only due to space limitations we've not covered the {uri-asciidoctor-user-manual
 Asciidoctor supports `jpg`, `png`, `svg` etc. -- basically anything {uri-mdn-web-image-formats}[a browser supports].
 Images can use either the block or inline macro:
 
-block (standalone):: `pass:[image::pic.jpg[width=200\]]`
-inline (inside text):: `pass:[image:pic2.jpg[Cool,200\]]`
+block (standalone):: src:asciidoc[image::pic.jpg[width=200\]]
+inline (inside text):: src:asciidoc[in the pass:[image:pic2.jpg[Cool,200\]] text]
 
 The only difference is one or two colons but inline images are within the content flow, block images are like separate paragraphs.
 
 If the document header contains an `imagesdir` then all relative image paths are resolved relative to it. So if the document header contains:
 
-  :imagesdir: media
+[source,asciidoc]
+----
+:imagesdir: media
+----
 
 Then `some_image.jpg` must be in that folder relative to the document.
 Absolute paths (`C:\images\image.png`) can be used and so can URLsfootnote:[But then the command line or API attribute `allow-uri-read` must be set for security reasons.].
@@ -528,36 +549,38 @@ The images macro takes a range of comma-delimited attributes, common options are
 // QUESTION: Is attributes really the right name ? !
 
 [.fullwidth.lit]
-[cols="1*<.^l,1*<.^5",frame="none",grid="cols",options="header"]
+[cols="1*<.<a,1*<.^5",frame="none",grid="cols",options="header"]
 |===
 |Attribute
 |Description
 
-|alt
-|First positional, alternative text, e.g. `alt="High mountain"`
+|[.ad-key]`alt`
+|First positional, alternative text, e.g. [.ad-key]##`alt`##[.ad-eq]##`=`##[.ad-val]##`"high mountain"`##
 
-|width/height
-|Second/third positional, dimensions are in % or pixels, e.g. `width=400` or `height=200`
+|[.ad-key]`width` +
+\|[.ad-key]`height`
+a|Second/third positional, dimensions are in % or pixels, e.g. [.ad-key]##`width`##[.ad-eq]##`=`##[.ad-val]##`400`## or [.ad-key]##`height`##[.ad-eq]##`=`##[.ad-val]##`200`##
 
 // |height
 // |Third positional, vertical dimension in % or pixels, e.g. `height=200`
 
-|title
-|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. `title="A sunset"`
+|[.ad-key]`title`
+|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. [.ad-key]##`title`##[.ad-eq]##`=`##[.ad-val]##`"A sunset"`##`
 
-|link
-|URI for hyperlink on clicking the image, e.g. `link=https://www.example.com`
+|[.ad-key]`link`
+|URI for hyperlink on clicking the image, e.g. [.ad-key]##`link`##[.ad-eq]##`=`##[.ad-val]##`https://www.example.com`##
 
-|align\|float
-|`[left\|center\|right]` -- for block images only; `float` does not have the `center` option. Align and float are mutually exclusive
+|[.ad-key]`align` +
+[.ad-key]`float`
+|`pass:[[][.ad-val]##left##\|[.ad-val]##center##\|[.ad-val]##right##]` -- for block images only; [.ad-val]`float` does not have the [.ad-val]`center` option. Align and float are mutually exclusive
 
-// |float
+// |[.ad-key]`float`
 // |`[left\|right]` -- for block images only; Align and float are mutually exclusive
 
-|role
-|e.g. `left`, `right`, `th`, `thumb`, `related`, `rel`. Use this to add a style
+|[.ad-key]`role`
+|e.g. [.ad-val]`left`, [.ad-val]`right`, [.ad-val]`th`, [.ad-val]`thumb`, [.ad-val]`related`, [.ad-val]`rel`. Use this to add a style
 
-|id
+|[.ad-key]`id`
 |Use this to add an HTML unique identifer. This may be useful for interacting with Javascript.
 
 |===
@@ -566,23 +589,24 @@ The images macro takes a range of comma-delimited attributes, common options are
 --
 // Quotes around values are optional unless you need a comma or a trailing space but may help with readability.
 
-The positional arguments don't need the attribute name included if they are in the correct sequence.
+The positional arguments don't need the attribute name included if they are in the sequence above.
 --
 
 // The default Asciidoctor stylesheet implements responsive images (using width-wise scaling).
 
-
 ifdef::largeVersion[]
 === Videos
 
-Like the `image` macro the `video` macro supports a range of {uri-mdn-web-video-formats}[web video formats]. Simply use the macro with a refernece ot the file and any required attributes:
+Like the `image` macro the `video` macro supports a range of {uri-mdn-web-video-formats}[web video formats]. Simply use the macro with a reference to the file and any required attributes:
 
-  video::video_file.mp4[width=640, start=60, end=140, options=autoplay]
+[source,asciidoc]
+video::video_file.mp4[width=640, start=60, end=140, options=autoplay]
 
 For YouTube or Vimeo, use the identifier in the macro target and the service as the first positional attribute.
 
-  video::rPQoq7ThGAU[youtube]
-  video::67480300[vimeo]
+[source,asciidoc]
+video::rPQoq7ThGAU[youtube]
+video::67480300[vimeo]
 
 [.fullwidth.lit]
 [cols="1*<.^l,1*<.^5",frame="none",grid="cols",options="header"]
@@ -631,10 +655,12 @@ endif::[]
 Asciidoctor supports different kinds of blocks, delimited using 2 or 4 characters. <<Admonitions>> are an example but there are more:
 
 [.fullwidth.lit]
-[cols="2*l",frame="none",grid="columns"]
+[cols="2*a",frame="none",grid="columns"]
 |===
 
 |
+[source,asciidoc]
+----
 --
 open - a general-purpose content wrapper; useful for enclosing content to attach to a list item
 --
@@ -646,8 +672,11 @@ example =
 ****
 sidebar - auxiliary content that can be read independently of the main content
 ****
+----
 
 ifdef::largeVersion[]
+[source,asciidoc]
+-----
 ....
 literal - an exhibit that features program output
 ....
@@ -655,10 +684,13 @@ literal - an exhibit that features program output
 ----
 listing - an exhibit that features program input, source code, or the contents of a file
 ----
+-----
 endif::[]
 
-|
+a|
 
+[source,asciidoc]
+-----
 [source,language]
 ----
 # a listing colorized with syntax highlighting, language is optional
@@ -668,6 +700,7 @@ print('hello world')
 ++++
 pass - content passed directly to the output document; often raw HTML
 ++++
+-----
 
 |===
 
@@ -677,69 +710,76 @@ If you need to nest blocks inside each other, add an extra pair of symbols to th
 
 If you set an attribute (anywhere in the document) with no value, then it is set or defined (or true). e.g.
 
-  :fish:
+[source,asciidoc]
+----
+:fish:
+----
 
 You can set it to a value, a number or a boolean
 
-  :fish: tuna
+[source,asciidoc]
+----
+:fish: tuna
+----
 
-It can be unset with an exclamation at the start or end inside the colons, e.g. `:fish!:` or `:!fish:`.
+It can be unset with an exclamation at the start or end inside the colons, e.g. src:asciidoc[:fish!:] or src:asciidoc[:!fish:].
 
-If you have a lot of text in an attribute you can make it more readable by making it multiline with a `\` at the end of the line.
+If you have a lot of text in an attribute you can make it more readable by making it multiline with a src:asciidoc[`\`] at the end of the line.
 
-You can control content using attributes using the `ifdef`, `ifndef` and `ifeval` macros:
+You can control content using attributes using the [.ad-macro]#`ifdef`#,  [.ad-macro]#`ifndef`# and  [.ad-macro]#`ifeval`# macros:
 
 // [.fullwidth.lit]
 // [cols="1*l,1*2l",frame="none",grid="cols"]
 // |===
 // |
 
-  ifdef::fish[]
-  This is included if fish is set
-  endif::[]
+[source,asciidoc]
+----
+\ifdef::fish[]
+This is included if fish is set
+\endif::[]
 
-  ifndef::fish[]
-  This is included if fish is not set
-  endif::[]
+\ifndef::fish[]
+This is included if fish is not set
+\endif::[]
 
-// |
+\ifeval::[{fish} == 3]
+If fish has the value 3, this is included
+\endif::[]
 
-  ifeval::[{fish} == 3]
-  If fish has the value 3, this is included
-  endif::[]
+\ifeval::[{fish} <= 3]
+If fish has the value <= 3, this is included
+\endif::[]
 
-  ifeval::[{fish} <= 3]
-  If fish has the value <= 3, this is included
-  endif::[]
-
-  ifeval::["{fish}" != "tuna"]
-  If fish is not set to tuna this  is included
-  Note the quotes for strings
-  endif::[]
-
+\ifeval::["{fish}" != "tuna"]
+If fish is not set to tuna this  is included
+Note the quotes for strings
+\endif::[]
+----
 // |===
 
 == Syntax Highlighting
 
-If you set a the document attribute `:source-highlighter:` to a valid option (`highlightjs` is one recommended option) then `[source]` blocks can be highlighted by specifying a language immediately after.
+If you set a the document attribute src:asciidoc[:source-highlighter:] to a valid option (`highlightjs` is one recommended option) then src:asciidoc[[source\]] blocks can be highlighted by specifying a language immediately after.
 
 [.fullwidth.lit]
-[cols="1*2,1*3",frame="none",grid="cols"]
+[cols="1*3,1*2",frame="none",grid="cols"]
 |===
 a|
 [#pythonsource2]
---
-  [source,python]
-  ----
-  print('hello world')
-  i = 1 # <1>{blank}
-  # i can add
-  i = i + 1
-  ----
-  <1> This is a callout
---
+
+[source,asciidoc]
+-----
+[source,python]
+----
+print('hello world')
+i = 1 # <1>{blank}
+# i can add
+i = i + 1
+----
+<1> This is a callout
+-----
 a|
-[#pythonsource]
 [source,python]
 ----
 print('hello world')
@@ -750,7 +790,7 @@ i = i + 1
 <1> This is a callout
 |===
 
-Callouts can be created by encasing a sequential number in carets, like `<1>` and placing the callout text after the block or using an ordered list identifier `<.>`
+Callouts can be created by encasing a sequential number in carets, like src:asciidoc[<1>] and placing the callout text after the block or using an ordered list identifier `<.>`
 
 // DONE ELSEWHERE
 // activate stem support by adding `:stem:` to the document header
@@ -1070,6 +1110,8 @@ a| image::notepadpp.png[width={iw},link={uri-notepadpp}]
 a| image::eclipse-icon.png[width={iw},link={uri-eclipse}]
 |===
 endif::[]
+
+// Add browsers
 
 // == What's Next
 
