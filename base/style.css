@@ -6,6 +6,8 @@
   size: A3 landscape;
   margin-top: 2.4em;
   margin-bottom: 2em;
+  /* margin-right: 0.5em;
+  margin-left: 0.5em; */
   padding: 0;
 }
 
@@ -21,7 +23,7 @@ body {
   /* color: rgb(74, 74, 74); */
   color: black;
   text-align: justify;
-  font-size: 60%;
+  font-size: 57%;
 }
 
 html {
@@ -33,7 +35,7 @@ header {
   background-color: #191919;
   padding: 1.5em;
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto;
   padding-right: 0; 
   /* 9.5em; */
   align-items: end;
@@ -750,20 +752,41 @@ code.language-asciidoc {
 
 .ad-attribute { 
   color: #07a;
+  background: #f5f2f0;
 }
 
 .ad-key {
   color: #e90;
+  background: #f5f2f0;
 }
 
 .ad-eq {
   color: #9a6e3a;
+  background: #f5f2f0;
 }
 
 .ad-val {
-  color: #07a
+  color: #07a;
+  background: #f5f2f0;
 }
 
 .ad-macro {
-  color: #DD4A68
+  color: #DD4A68;
+  background: #f5f2f0;
+}
+
+.website {
+  justify-self: right;
+  align-self: center;
+}
+
+.title {
+  justify-self: middle;
+  align-self: center;
+}
+
+.versioning {
+  padding-right: 1em;
+  justify-self: right;
+  align-self: center;
 }

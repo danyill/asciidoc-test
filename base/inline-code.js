@@ -5,7 +5,7 @@ const srcMacro = function () {
     // self.$option('content_model', 'text')
     self.process(function (parent, target, attrs) {
         const lang = target
-        console.log(attrs['text'])
+        // console.log(attrs['text'])
         const text = `<code class="language-${lang} inline" data-lang="${lang}" title="${lang}">${attrs['text']}</code>`
         // return self.createInline(parent, 'quoted', text, { 'type': 'strong' }).convert()
         // opts = {'type': 'monospaced'}

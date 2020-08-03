@@ -8,7 +8,7 @@ v 0.20
 // :source-highlighter: highlightjs
 :toc: macro
 // icon widths
-:iw: 30
+:iw: 25
 :uri-ventilated-prose: https://vanemden.wordpress.com/2009/01/01/ventilated-prose/
 :uri-vcses: https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
 :uri-vs-code: https://marketplace.visualstudio.com/items?itemName=joaompinto.asciidoctor-vscode
@@ -52,7 +52,7 @@ endif::[]
 :largeVersion!:
 
 [preface]
-This quick reference is focussed on the HTML backend, but Asciidoctor supports {uri-asciidoctor-output-formats}[many output formats]. For detailed documentation, see the {uri-docs}[user manual].
+This quick reference is focussed on the HTML backend and the Asciidoctor processor. Asciidoctor supports {uri-asciidoctor-output-formats}[many output formats]. For detailed documentation, see the {uri-docs}[user manual].
 
 Asciidoctor has an active {uri-gitter-asciidoctor}[Gitter channel] for support and questions.
 Please join in.
@@ -227,7 +227,7 @@ You can use this to write e=mc^2^ and H~2~O but see <<Equations>> as well.
 
 === HTML Entities and Unicode
 
-Asciidoctor allows {uri-html-entities-html5}[html entities] directly in Asciidoc but we recommend pasting Unicode in directly or using a numeric character reference. So for &#x00A7; instead of +&sect;+ we suggest +&#x00A7;+ or +&#167;+.
+Asciidoctor allows {uri-html-entities-html5}[html entities] directly in Asciidoc but we recommend pasting Unicode in directly or using a numeric character reference. So for &#x00A7; instead of +&sect;+ we suggest +&#x00A7;+ or +&#167;+
 
 TIP: Use an online website to find key characters, {uri-unicode-table}[here's one] and you'll be away laughing [.emojilarge]#🤣 😁 😸 🤩#
 
@@ -558,14 +558,14 @@ The images macro takes a range of comma-delimited attributes, common options are
 |First positional, alternative text, e.g. [.ad-key]##`alt`##[.ad-eq]##`=`##[.ad-val]##`"high mountain"`##
 
 |[.ad-key]`width` +
-\|[.ad-key]`height`
+[.ad-key]`height`
 a|Second/third positional, dimensions are in % or pixels, e.g. [.ad-key]##`width`##[.ad-eq]##`=`##[.ad-val]##`400`## or [.ad-key]##`height`##[.ad-eq]##`=`##[.ad-val]##`200`##
 
 // |height
 // |Third positional, vertical dimension in % or pixels, e.g. `height=200`
 
 |[.ad-key]`title`
-|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. [.ad-key]##`title`##[.ad-eq]##`=`##[.ad-val]##`"A sunset"`##`
+|title which goes above the image for the block macro or becomes a tooltip for the inline macro, e.g. [.ad-key]##`title`##[.ad-eq]##`=`##[.ad-val]##`"A sunset"`##
 
 |[.ad-key]`link`
 |URI for hyperlink on clicking the image, e.g. [.ad-key]##`link`##[.ad-eq]##`=`##[.ad-val]##`https://www.example.com`##
@@ -790,7 +790,7 @@ i = i + 1
 <1> This is a callout
 |===
 
-Callouts can be created by encasing a sequential number in carets, like src:asciidoc[<1>] and placing the callout text after the block or using an ordered list identifier `<.>`
+Callouts can be created by using either encasing a sequential number in carets, like src:asciidoc[<1>] and placing the callout text after the block or using an ordered list identifier src:asciidoc[<.>]
 
 // DONE ELSEWHERE
 // activate stem support by adding `:stem:` to the document header
@@ -830,38 +830,38 @@ comment - content which is not included in the output document
 
 == Tables
 
-Tables are a block starting and ending with `|===` and with `|` as a cell separator.
+Tables are a block starting and ending with src:asciidoc[|===] and with src:asciidoc[|] as a cell separator.
 
 Some important attributes are defined above this:
 
 [.fullwidth.lit]
-[cols="<.^1l,<.^2l",width=100%,frame=none,grid=columns]
+[cols="<.^1a,<.^2a",width=100%,frame=none,grid=columns]
 |===
 | Name | Values
 
-| options
-| header,footer,autowidth
+| [.ad-key]#`options`#
+| [.ad-val]#`header`#,[.ad-val]#`footer`#,[.ad-val]#`autowidth`#
 
-| cols
-| colspec[,colspec,...]
+| [.ad-key]#`cols`#
+| `colspec[,colspec,...]`
 
-| grid
-| all\|cols\|rows\|none
+| [.ad-key]#`grid`#
+| [.ad-val]#`all`# \| [.ad-val]#`cols`# \| [.ad-val]#`rows`# \| [.ad-val]#`none`#
 
-| frame
-| all\|sides\|topbot\|none
+| [.ad-key]#`frame`#
+| [.ad-val]#`all`# \| [.ad-val]#`sides`# \| [.ad-val]#`topbot`# \| [.ad-val]#`none`#
 
-| stripes
-| all\|even\|odd\|none
+| [.ad-key]#`stripes`#
+| [.ad-val]#`all`# \| [.ad-val]#`even`# \| [.ad-val]#`odd`# \| [.ad-val]#`none`#
 
-| width
-| (0%..100%)
+| [.ad-key]#`width`#
+| 0%..100% (or any proportion)
 
-| format
-| psv {vbar} csv {vbar} dsv
+| [.ad-key]#`format`#
+| [.ad-val]#`psv`# {vbar} [.ad-val]#`csv`# {vbar} [.ad-val]#`dsv`#
 |===
 
-The `colspec` is quite intricate for each set of columns:
+The src:asciidoc[colspec] is quite intricate for each set of columns:
 
   <no.columns>*<h_alignment>.<v_alignment><width><style>
 
@@ -870,7 +870,7 @@ The multiplier operator (`*`) allows you to specify the same style for multiple 
 
 If the columns aren't specified the number of columns is the number used in the first line
 
-The alignment values can be `<` = left/top, `^` center/middle or `>` right/bottom
+The alignment values can be `<` = left/top, `^` = center/middle or `>` = right/bottom
 
 The width is just a relative proportion (a percentage or just a number)
 
@@ -880,48 +880,62 @@ Style is one of the following:
 [cols="2",frame="none",grid="cols"]
 |===
 a|
-* `a` -- standalone document: allows all block-level elements
-* `e` -- italic/emphasis
-* `h` -- header
+[none]
+* [ad-key]#`a`# -- standalone document: allows all block-level elements
+* [ad-key]#`e`# -- italic/emphasis
+* [ad-key]#`h`# -- header
 a|
-* `l` -- literal block
-* `m` -- monospaced block
-* `d` -- default style
-* `s` -- strong/bold
-* `v` -- content is like a verse block
+[none]
+* [ad-key]#`l`# -- literal block
+* [ad-key]#`m`# -- monospaced block
+* [ad-key]#`d`# -- default style
+* [ad-key]#`s`# -- strong/bold
+* [ad-key]#`v`# -- content is like a verse block
 // TODO: Except we haven't mentioned verse blocks.
 
 |===
 
 To put the same content in some cells you can specify this before the cell separator:
 
-  3*| Same content in three columns.
+[source,asciidoc]
+----
+3*| Same content in three columns.
+----
 
 To merge cells horizontally or vertically, before the cell separator:
 
-  3+|  Three columns merged horizontally
-  .2+| Two rows merged vertically
+[source,asciidoc]
+----
+3+|  Three columns merged horizontally
+ .2+| Two rows merged vertically
+----
 
 You can also use the styles mentioned above the horizontal/vertical alignment on an individual cell:
 
-  ^.^s| middle and center aligned and strong/bold
+[source,asciidoc]
+----
+^.^s| middle and center aligned and strong/bold
+----
 
 TIP: To use a pipe (|) within the content of a cell without creating a new cell, you can use the `pass:c[{vbar}]` attribute.
 
 === An Example
 
-  |===
+[source,asciidoc]
+----
+|===
 
-  |Column 1, row 1 |Column 2, row 1 |Column 3, row 1 |Column 4, row 1
+|Column 1, row 1 |Column 2, row 1 |Column 3, row 1 |Column 4, row 1
 
-  |Column 1, row 2
-  2.2+|Content in a single cell that spans over rows and columns
-  |Column 4, row 2
+|Column 1, row 2
+2.2+|Content in a single cell that spans over rows and columns
+|Column 4, row 2
 
-  |Column 1, row 3
-  |Column 4, row 3
+|Column 1, row 3
+|Column 4, row 3
 
-  |===
+|===
+----
 
 results in:
 
@@ -943,7 +957,10 @@ Just occasionally, syntax seems through a spanner in the works when you want to 
 
 The text below doesn't render very well if you want the asterisks and square brackets to appear because they are Asciidoc syntax
 
-  [hi] *hi*
+[source,asciidoc]
+----
+[hi] *hi*
+----
 
 To fix issues like this, we use escaping and pass-through macros.
 
@@ -951,49 +968,61 @@ To escape highlighting or emphasis, one option is to use `+` to escape
 
 === Pluses
 
-The following work:
+Pluses are an escape character. More pluses means stronger escaping. Three pluses is much the same as the pass macro.
 
-  +[hi] *hi*+
-  ++[hi] *hi*++
-  +++[hi] *hi*+++
+[source,asciidoc]
+----
++[hi] *hi*+
+++[hi] *hi*++
++++[hi] *hi*+++
+----
 
 === Passthrough Macros
 
 // TIP: We recommend avoiding backslashes and the use of $ signs.
 
-The inline pass macro is almost always helpful (but not concise or elegant). You write `pass:` followed by a comma delimited list of options (character or the name without spaces):
+The inline pass macro is almost always helpful (but not concise or elegant). You write [ad-macro]#`pass:`# followed by a comma delimited list of options (character or the name without spaces):
 
-* c = special characters -- substitutes `&`, `<` and `>` as these are reserved characters in HTML
-* q = quotes -- bold, italic, monospace super/sub-scripts)
-* r = replacements -- e.g. +(C)+ and +->+ and +--+
-* m = macros -- allows inline macros
-* a = attributes -- allows attribute substitution
-* p = post replacements
+* [ad-key]#`c`# = special characters -- substitutes `&`, `<` and `>` as these are reserved characters in HTML
+* [ad-key]#`q`# = quotes -- bold, italic, monospace super/sub-scripts)
+* [ad-key]#`r`# = replacements -- e.g. +(C)+ and +->+ and +--+
+* [ad-key]#`m`# = macros -- allows inline macros
+* [ad-key]#`a`# = attributes -- allows attribute substitution
+* [ad-key]#`p`# = post replacements
 
 and then follow with the text you want in square brackets. Some examples:
 
-  The text pass:[<u>underline me</u>] is underlined.
-  pass:attributes[No *bold*, but the backend is {backend}]
-  pass:specialcharacters[Almost No__thing__ works {any} *more*]
-  pass:q,r[But I am a circled C, (C) and should contain *bold* text.]
+[source,asciidoc]
+----
+The text pass:[<u>underline me</u>] is underlined.
+pass:attributes[No *bold*, but the backend is {backend}]
+pass:specialcharacters[Almost No__thing__ works {any} *more*]
+pass:q,r[But I am a circled C, (C) and should contain *bold* text.]
+----
 
 === Controlling Substitutions
 
-If nothing else works, there are two other options. First the passthrough block:
+If nothing else works, there are still other options. First the passthrough block:
 
-  ++++
-  [hi] *hi*
-  ++++
+[source,asciidoc]
+----
+++++
+[hi] *hi*
+++++
+----
 
 This translates the content directly to the back-end without any modification.
 
 The other is to wrap content in a <<Blocks,block>>  and add the `subs` attribute:
 
-  [subs=+macros]
-  ----
-  I better not contain *bold* or _italic_ text.
-  pass:quotes[But I should contain *bold* text.]
-  ----
+[source,asciidoc]
+-----
+[subs=+macros]
+----
+I better not contain *bold* or _italic_ text.
+pass:quotes[But I should contain *bold* text.]
+----
+-----
 
 When you set the subs attribute on a block, you automatically remove all of its default substitutions.
 
@@ -1009,36 +1038,43 @@ These allow incremental substitutions.
 
 The default list is the substitutions in the order shown <<Passthrough Macros, above>>, from first to last:  `c`,`q`,`r`,`m`,`a`, `p`
 
+Finally, the least stable way is to use the number of backslashes required to escape the number of characters the formatting uses. For example to escape emphasis you can use pass:m[src:asciidoc[\_\]] or for unconstrained emphasis, pass:m[src:asciidoc[\\__\]]
+
 // [.columnbreak]
 == The Include Macro
 
 To partition, reuse or populate data sources, use the include macro to bring content from other files or URLs by placing the following in a line:
 
-  include::chapter01.adoc[]
-  // define -a allow-uri-read to allow URI content
-  include::https://example.org/installation.adoc[]
-  include::base.adoc[tag=intro]
+[source,asciidoc]
+----
+\include::chapter01.adoc[]
+// set :allow-uri-read: in doc header to allow URI content
+\include::https://example.org/install.adoc[]
+\include::base.adoc[tag=intro]
+----
+
+Here are the options:
 
 [.fullwidth.lit]
-[cols="1*<.^l,1*<.^5",frame="none",grid="cols",options="header"]
+[cols="1*<.^a,1*<.^5a",frame="none",grid="cols",options="header"]
 |===
 |Attribute
 |Description
 
-|leveloffset
+|[.ad-key]#`leveloffset`#
 |e.g. `leveloffset=+1`
 This allows all headings to be pushed down (`+`)or up (`-`) a specified number of levels
 
-|lines
+|[.ad-key]#`lines`#
 |Can be specified individually or as a range. For example: `lines=7;14..25;28..43`. `-1` means the "`last line`"
 
-|tags
+|[.ad-key]#`tags`#
 | tagged regions in the included file start with a comment (e.g. `//` for Asciidoc) and then `tag::<name>[]` and end with `end::<name>[]`.
 Multiple tags from the same file are allowed, separate with `;`
 
-|indent
-|`indent=0` strips out any indentation and increasing numbers add it back in multiples of the attribute `tabsize` which defaults to 4.
-You can, for instance set `:tabsize: 2` in the document header
+|[.ad-key]#`indent`#
+|[.ad-key]##`indent`##[.ad-eq]##`=`##[.ad-val]##`0`## strips out any indentation and increasing numbers add it back in multiples of the attribute `tabsize` which defaults to 4.
+You can, for instance set src:asciidoc[:tabsize: 2] in the document header
 
 |===
 [leveloffset=offset,lines=ranges,tag(s)=name(s),indent=depth,opts=optional]

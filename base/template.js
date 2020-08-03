@@ -12,44 +12,6 @@ const footnotes = (node) => {
   return ''
 }
 
-const getAuthors = function (node) {
-  const result = [];
-  const authorCount = node.getAttribute('authorcount')
-  if (authorCount > 1) {
-    for (let index = 1; index < authorCount + 1; index++) {
-      const author = node.getAttribute(`author_${index}`)
-      const email = node.getAttribute(`email_${index}`)
-      const bio = node.getAttribute(`authorbio_${index}`)
-      let twitter;
-      if (email && email.startsWith("https://twitter.com/")) {
-        twitter = email.replace("https://twitter.com/", "");
-      }
-      result.push({ name: author, email: email, bio: bio, twitter: twitter })
-    }
-  } else {
-    const author = node.getAttribute('author')
-    const email = node.getAttribute('email')
-    const bio = node.getAttribute(`authorbio`)
-    let twitter;
-    if (email && email.startsWith("https://twitter.com/")) {
-      twitter = email.replace("https://twitter.com/", "");
-    }
-    result.push({ name: author, email: email, bio: bio, twitter: twitter })
-  }
-  return result;
-}
-
-const renderAuthors = function (authors) {
-  return authors.map(author => {
-    return `<div class="author">
-<div class="author-avatar"><img src="http://avatars.io/twitter/${author.twitter}"/></div>
-<div class="author-name"><a href="${author.email}">@${author.twitter}</a></div>
-<div class="author-bio">${author.bio}</div>
-</div>
-`;
-  }).join('\n')
-}
-
 module.exports = {
   paragraph: (node) => `<p class="${node.getRoles().join(' ')}">${node.getContent()}</p>`,
   document: (node) => `<!DOCTYPE html>
@@ -63,10 +25,13 @@ module.exports = {
 <body>
 <header>
   <img class="wordmark" src="./media/byline.jpeg"/>
-  <h1>${node.getTitle()}</h1>
-  <p>version: <code>${node.getRevisionNumber()}</code></p>
-  <a class="website" href="https://asciidoctor.org/">asciidoctor.org</a>
-  <img class="logo" src="./media/logo-fill-color.svg"/>
+  <a class="website" href="https://asciidoctor.org/"><img class="logo" width="40" src="./media/logo-fill-color.svg"/></a>
+  <h1 class="title">${node.getTitle()}</h1>
+  <span class="versioning">
+  <!-- <p>AsciiDoc is a Trademark of the Eclipse Foundation, Inc.</p> -->
+  <p>Cheatsheet version: <code>${node.getRevisionNumber()}</code></p>
+  <p> Asciidoctor version: 2.0.10</p>
+  </span>
 </header>
 <section class="content">
 ${node.getContent()}
@@ -74,6 +39,9 @@ ${node.getContent()}
 <h2>Footnotes</h2>
 ${footnotes(node)}
 </section>
+<footer>
+
+</footer>
 ${stemContent.content(node)}
 <script src="./base/prism.js"></script>
 </body>

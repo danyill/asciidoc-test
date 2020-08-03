@@ -264,3 +264,204 @@ Document special paged css in project
 
 echo fs.inotify.max_user_watches=16384 | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
+
+
+
+the simple answer is, you can't. the custom inline macros get processed during the macros substitution, which comes after inline formatting. there's an open issue (I think) to allow an inline macro to declare passthrough semantics, but we haven't explored that yet.
+one workaround, though not pretty, is to wrap it in a pass macro
+
+pass:m[src:asciidoc[**N**ot**G**ood\]]
+
+danyill
+@danyill
+Aug 01 19:04
+oh thanks for the speedy response @mojavelinux. Is it any better if I use the target for the code piece? or is it the same issue?
+Dan Allen
+@mojavelinux
+Aug 01 19:04
+but that's not a good authoring experience.
+same issue since inline substitutions are completely flat
+one possible approach is to use a tree processor to manipulate the text so that it gets escaped, though that's not going to be a simple task.
+danyill
+@danyill
+Aug 01 19:07
+I have to hunt for the macro, find some substitutions method to call prior to the inline macro being called? I can't remember the processing order
+Dan Allen
+@mojavelinux
+Aug 01 19:07
+from the authoring perspective, you'd need to escape formatting characters:
+
+src:asciidoc[\\**N**ot\\**G**ood]
+
+(same as if was just regular text)
+danyill
+@danyill
+Aug 01 19:09
+hmmm
+Dan Allen
+@mojavelinux
+Aug 01 19:09
+in the AsciiDoc spec, this is why we absolutely must switch to a recursive decent model. then, you get the raw text and must call proceed to continue parsing if you want it to happen. it's not going to be a trivial change, but until we make it, we are just absolutely stuck on this and so many similar issues.
+danyill
+@danyill
+Aug 01 19:10
+Even with the pass macro it still formats the code, oddly
+e.g. * pass:m[src:asciidoc[**D**o**N**ot**R**epeat\]] gives:
+image.png
+The 'D', 'N' and 'R' are in bold still, which I did not exepct
+*expect
+Dan Allen
+@mojavelinux
+Aug 01 19:12
+that's because your extension is doing it
+danyill
+@danyill
+Aug 01 19:12
+is it because createInline has quoted in it ?
+Dan Allen
+@mojavelinux
+Aug 01 19:12
+you aren't specifying the subs
+danyill
+@danyill
+Aug 01 19:12
+oh it's just because I'm calling convert
+Dan Allen
+@mojavelinux
+Aug 01 19:13
+I'd have to double check that, I'm not 100% sure which call it is, but pass:m[] definitely doesn't apply formatting
+btw, parseContentAs('raw') doesn't make sense in this context
+it's either 'attributes' or 'text'
+btw, you don't call convert on the return value because the processor does that for you. you just return the node
+Dan Allen
+@mojavelinux
+Aug 01 19:18
+if you're going to make HTML, you should be returning a pass node
+danyill
+@danyill
+Aug 01 19:19
+if instead of quoted I use pass I get: 'undefined methodreceiver\' for #<NoMethodError: undefined method convert_inline_pass\' for #<Asciidoctor::Converter::Html5Converter:0x472>>',
+Is that what you meant ?
+ok, thanks
+OK, thanks for the help -- I struggled to find a good example of an inline macro for this so I've hacked it a bit
+Dan Allen
+@mojavelinux
+Aug 01 19:20
+
+Asciidoctor::Extensions.register do
+  inline_macro do
+    named :src
+    parse_content_as :text
+    process do |parent, target, attrs|
+      html = %(<code class="language-#{target} inline" data-lang="#{target}">#{attrs['text']}</code>)
+      create_inline_pass parent, html
+    end
+  end
+end
+
+though it would really be better to create a :quoted of type :monospaced with a role and then use a custom converter to add the data-lang attribute
+
+create_inline parent, :quoted, attrs['text'], type: :monospaced, attributes: { 'role' => %(language=#{target} inline) }
+
+Dan Allen
+@mojavelinux
+Aug 01 19:26
+which gives you:
+
+<div class="paragraph">
+<p><code class="language=asciidoc inline">**D**o**N**ot**R**epeat</code></p>
+</div>
+
+danyill
+@danyill
+Aug 01 19:26
+hmmm
+is create_inline_pass not mapped in asciidoctor.js?
+Dan Allen
+@mojavelinux
+Aug 01 19:28
+might not be. not something I've checked.
+you can always drop back to createInline
+danyill
+@danyill
+Aug 01 19:30
+Yes, that's where I get the error with:
+
+return self.createInline(parent, 'pass', text, opts).convert()
+
+gives:
+
+  message:
+   'undefined method `receiver\' for #<NoMethodError: undefined method `convert_inline_pass\' for #<Asciidoctor::Converter::Html5Converter:0x472>>',
+
+Dan Allen
+@mojavelinux
+Aug 01 19:31
+pass is not a kind of node
+it's a quoted node
+type is nil
+
+return self.createInline(parent, 'quoted', text)
+
+(effectively unquoted)
+danyill
+@danyill
+Aug 01 19:34
+hmmm
+
+I seem to need:
+
+    self.parseContentAs('raw')
+
+or everything breaks
+I'll leave it as 'text' instead of 'raw'
+However even with that, it still appears bold
+Now using:
+
+const srcMacro = function () {
+    const self = this
+    self.named('src')
+    self.parseContentAs('text')
+    self.process(function (parent, target, attrs) {
+        const lang = target
+        console.log(attrs['text'])
+        const text = `<code class="language-${lang} inline" data-lang="${lang}" title="${lang}">${attrs['text']}</code>`
+        // return self.createInline(parent, 'quoted', text, { 'type': 'strong' }).convert()
+        return self.createInline(parent, 'quoted', text)
+    })
+}
+
+module.exports.register = function register(registry) {
+    if (typeof registry.register === 'function') {
+        registry.register(function () {
+            this.inlineMacro(srcMacro)
+        })
+    } else if (typeof registry.block === 'function') {
+        registry.inlineMacro(srcMacro)
+    }
+    return registry
+}
+
+Dan Allen
+@mojavelinux
+Aug 01 19:41
+that should work. it works in Ruby
+danyill
+@danyill
+Aug 01 19:43
+Ok, I investigate further later. Thanks for all the help.
+Dan Allen
+@mojavelinux
+Aug 01 19:48
+I just tried it with an Antora site and it works if I use this instead of parseContentAs
+
+self.$option('content_model', 'text')
+
+danyill
+@danyill
+Aug 02 19:14
+Thanks again @mojavelinux I have looked into this some more -- I think setting the content using parseContentAs('text') also works fine from my tests. The reason I was getting bold text unexpectedly was because the syntax highlighter (prism) was applying it -- nothing to do with Asciidoctor processing chain. I was totally fooled. Really appreciate the help though, this would otherwise have taken me a very long time
+Dan Allen
+@mojavelinux
+Aug 02 20:41
+aha!
