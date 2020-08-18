@@ -1,0 +1,19 @@
+= README
+:uri-docs: https://asciidoctor.org/docs
+:uri-asciidoctor-web-pdf: https://github.com/Mogztter/asciidoctor-web-pdf/
+
+image:https://gitlab.com/danyill/asciidoctor-quick-reference/badges/master/pipeline.svg[link="https://gitlab.com/danyill/asciidoctor-quick-reference/-/commits/master",title="pipeline status"]
+
+== Introduction
+
+This is just a simple cheatsheet for the basics of Asciidoc as used in {uri-docs}[Asciidoctor].
+
+The goal was to provide two sides of A3 which gives someone who has not used inline markup or Asciidoc before enough to get moving without making the task of learning new syntax feel too difficult.
+
+== Notes
+
+The `build.sh` script can be used for local builds.
+
+Evince is a reasonable PDF viewer which will refresh when a new PDF is available.
+
+The script uses `entr` to re-run {uri-asciidoctor-web-pdf}[`asciidoctor-web-pdf`] as the watch mode in this still has some gaps.

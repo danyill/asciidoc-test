@@ -1,5 +1,6 @@
 const stemContent = require('./stem')
 
+// not currently used
 const footnotes = (node) => {
   if (node.hasFootnotes() && !(node.isAttribute('nofootnotes'))) {
     return `<div id="footnotes">

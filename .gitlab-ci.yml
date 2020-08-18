@@ -4,13 +4,15 @@ cache:
   paths:
     - node_modules/
 
+before_script:
+    - apt-get update && apt-get install -y git
+    - npm install
+
 make_pdf:
     except:
         - tags
     stage: build
-    script:
-        - apt-get update && apt-get install -y git
-        - npm install
+    script:    
         - ./node_modules/.bin/asciidoctor-web-pdf -v -t --template-require ./base/template.js --require ./base/inline-code.js -S unsafe asciidoctor-cheat-sheet.adoc -o ./build/asciidoctor-cheat-sheet.pdf
     artifacts:
         paths:
@@ -18,3 +20,16 @@ make_pdf:
         name: '${CI_PROJECT_DIR}_${CI_COMMIT_REF_NAME}'
         when: on_success
         expire_in: '1 week'
+
+make_pdf_tag:
+    only:
+        - tags
+    stage: build
+    script:
+        - ./node_modules/.bin/asciidoctor-web-pdf -v -t --template-require ./base/template.js --require ./base/inline-code.js -S unsafe asciidoctor-cheat-sheet.adoc -o ./build/asciidoctor-cheat-sheet.pdf
+    artifacts:
+        paths:
+            - build
+        name: '${CI_PROJECT_DIR}_${CI_COMMIT_REF_NAME}'
+        when: on_success
+        expire_in: '1000 years'
