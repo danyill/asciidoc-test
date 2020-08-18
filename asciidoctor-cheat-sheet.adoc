@@ -1,6 +1,6 @@
 = Asciidoc Quick Reference: HTML
 Daniel Mulholland
-v 0.20
+v 0.30
 :icons: font
 :sectanchors:
 :stem:
@@ -8,8 +8,7 @@ v 0.20
 // :source-highlighter: highlightjs
 :toc: macro
 // icon widths
-:iw: 25
-:uri-ventilated-prose: https://vanemden.wordpress.com/2009/01/01/ventilated-prose/
+:iw: 20
 :uri-vcses: https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control
 :uri-vs-code: https://marketplace.visualstudio.com/items?itemName=joaompinto.asciidoctor-vscode
 :uri-vim: https://www.vim.org/
@@ -38,6 +37,7 @@ v 0.20
 :uri-asciidoctor-user-manual-icon: https://asciidoctor.org/docs/user-manual/#inline-icons
 :uri-asciidoctor-user-manual-video: https://asciidoctor.org/docs/user-manual/#video
 :uri-asciidoctor-user-manual-extensions: https://asciidoctor.org/docs/user-manual/#extensions
+:uri-asciidoctor-user-manual-include-tag-filtering: https://asciidoctor.org/docs/user-manual/#tag-filtering
 :uri-mdn-web-image-formats: https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types#Common_image_file_types
 :uri-mdn-web-video-formats: https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#Common_codecs
 :uri-static-website-asciidoc-list: https://gist.github.com/briandominick/e5754cc8438dd9503d936ef65fffbb2d
@@ -46,6 +46,9 @@ v 0.20
 :uri-asciidoctor-extensions-lab: https://github.com/asciidoctor/asciidoctor-extensions-lab
 :uri-html-entities-html5: https://dev.w3.org/html5/html-author/charref
 :uri-unicode-table: https://unicode-table.com/en
+:uri-chrome-extension: https://chrome.google.com/webstore/detail/asciidoctorjs-live-previe/iaalpfgpbocpdfblpnhhgllgbdbchmia
+:uri-firefox-extension: https://addons.mozilla.org/en-US/firefox/addon/asciidoctorjs-live-preview/
+:uri-opera-extension: https://addons.opera.com/en/extensions/details/asciidoctorjs-live-preview/
 ifdef::largeVersion[]
 :sectnums:
 endif::[]
@@ -94,11 +97,10 @@ The first blank line in the document marks the end of the header
 
 === Document-Wide Attributes
 
-After the title, author, version and date information, document-wide attributes can be set in the header.
+Immediately after the title, author, version and date information, document-wide attributes can be set in the header.
 
-These can be any arbitrary src:asciidoc[:key: value] but some have special meaning and turn on document features.
-
-Here are some commonly used attributes.
+These can be any arbitrary src:asciidoc[:key: value] but some have special meaning and enable document features.
+Here are some commonly used ones:
 
 [none]
 * src:asciidoc[:sectanchors:] -- creates an empty link (a section entity, §) visible when hovering just left of the section title
@@ -107,11 +109,16 @@ Here are some commonly used attributes.
 * src:asciidoc[:sectnumlevels: 3] -- determines the depth of numbering. Default is 3
 * src:asciidoc[:nofooter:] -- remove footer at bottom of document
 * src:asciidoc[:icons: font] -- Enable FontAwesome to support admonitions, callouts and icons
+* src:asciidoc[:data-uri:] -- Embed graphics as data-uri elements in HTML elements so the file is completely self-contained
+* src:asciidoc[:hardbreaks:] -- Preserve hard line breaks in the input
+* src:asciidoc[:nofooter:] -- Suppress the output of the footer
+* src:asciidoc[:noheader:] -- Suppress the output of the header
+
 // * `pass:[:reproducible:]` -- Removes `last-updated` date from html to avoid changes caused by this
 
 === Sections
 
-Sections must also be flush with left margin
+Sections must be flush with left margin
 
 [source,asciidoc]
 ----
@@ -125,12 +132,16 @@ Sections must also be flush with left margin
 == An Appendix
 ----
 
-Special sections include a role to define them -- src:asciidoc[[abstract\]], src:asciidoc[[preface\]] and src:asciidoc[[appendix\]] for example.
+You cannot skip section levels -- e.g. Level 3 must come after Level 2.
 
+Special sections include a role to define them -- src:asciidoc[[abstract\]], src:asciidoc[[preface\]] and src:asciidoc[[appendix\]] for example. 
+This changes the referencing to match typical style requirements (e.g. Appendixes start "Appendix A").
+
+[.columnbreak]
 === Generating a Table of Contents
 
 In the document header, set src:asciidoc[:toc:] and a table of contents is inserted directly below the document header.
-The following options are also available:
+The following values are also available:
 
 [none]
 * src:asciidoc[:toc: preamble] -- inserts the TOC just below the preamble
@@ -144,20 +155,19 @@ The following options are also available:
 A blank line separates paragraphs.
 
 Line breaks are not preserved by default.
-This is called {uri-ventilated-prose}[ventilated prose].
-It works well with {uri-vcses}[VCSes].
+This works well with {uri-vcses}[VCSes].
 
 Set the `hardbreaks` option to preserve line breaks.
 
 [source,asciidoc]
 ----
 [%hardbreaks]
-This paragraph has the `hardbreaks` option.
+This paragraph has the hardbreaks option set on the block.
+A paragraph is a type of block in Asciidoc.
 Line breaks are now preserved.
 ----
 
-For a "`one-off`" line break, at the end use a space and a `+` +
-to break the line.
+For a "`one-off`" line break, at the end of a line use a space and a `+` to break the line.
 
 Indenting with one or more spaces creates a literal paragraph.
 This disables text formatting, preserves spaces and line breaks, and is displayed indented in a monospaced font.
@@ -174,7 +184,7 @@ To align a block, set a role in the form:
 
 [source,asciidoc]
 ----
-  [.text-{left|center|right|justify}]
+[.text-{left|center|right|justify}]
 ----
 
 for example:
@@ -201,7 +211,6 @@ Asciidoc has two types of formatting:
 === Constrained
 
 [none]
-
 * pass:m[src:asciidoc[*strong/bold*\]] -> *strong/bold*
 * pass:m[src:asciidoc[_italics/emphasis_\]] -> _italics/emphasis_
 * pass:m[src:asciidoc[`monospace`\]] -> `monospace`
@@ -219,21 +228,24 @@ Asciidoc has two types of formatting:
 
 === Superscript and Subscript
 
+Superscript and subscript don't allow spaces in Asciidoc.
+
 [none]
 * pass:m[src:asciidoc[^Super^script\]] -> ^Super^script
 * pass:m[src:asciidoc[~Sub~script\]] -> ~Sub~script
 
 You can use this to write e=mc^2^ and H~2~O but see <<Equations>> as well.
 
+// [.columnbreak]
 === HTML Entities and Unicode
 
 Asciidoctor allows {uri-html-entities-html5}[html entities] directly in Asciidoc but we recommend pasting Unicode in directly or using a numeric character reference. So for &#x00A7; instead of +&sect;+ we suggest +&#x00A7;+ or +&#167;+
 
-TIP: Use an online website to find key characters, {uri-unicode-table}[here's one] and you'll be away laughing [.emojilarge]#🤣 😁 😸 🤩#
+TIP: Use an online website to find characters, {uri-unicode-table}[here's one] and you'll be away laughing [.emojilarge]#🤣 😁 😸 🤩#
 
 === Custom Roles
 
-A custom role can be applied using a style applied to hash symbols, like this:
+A custom role can be applied using a CSS style to text between hash symbols, like this:
 
 [none]
 * pass:m[src:asciidoc[[small\\]#small text#\]] -> [small]#small text#
@@ -243,195 +255,16 @@ Use dots between multiple roles, e.g.
 [none]
 * pass:m[src:asciidoc[[.small.green\\]#small text#\]] -> [.small.green]#small text#
 
+This can be used for special formatting, colors etc. 
+Use the unconstrained formatting if necessary.
 Some more examples:
 
+[none]
 * pass:m[src:asciidoc[[.big\\]#some text#\]] -> [.big]#some text#
 * pass:m[src:asciidoc[[.underline\\]#some text#\]] -> [.underline]#some text#
-// * `pass:[[.overline\]#some text#]` -> [.overline]#some text#
+* pass:m[src:asciidoc[[.overline\\]##some##text\]] -> [.overline]##some##text
 * pass:m[src:asciidoc[[.line-through\\]#some text#\]] -> [.line-through]#some text#
 
-== Comments
-
-Comments are not included in the output and can be useful for audit-trail, review, commentary and outstanding items.
-
-
-[source,asciidoc]
-----
-// single comments begin with 2 slashes
-
-////
-This is how we fence multi-line comments
-TODO: Consider learning grammar.
-////
-----
-
-== Admonitions
-
-Asciidoctor has 5 default admonition types: `NOTE:`, `TIP:`, `IMPORTANT:`, `CAUTION:` and `WARNING:`.
-
-TIP: Start a paragraph like this one beginning `TIP:` and it will be displayed like this to catch your reader's attention.
-
-You can also fence an admonition using `====` and set a title by starting a line with `.` This can help with complex multi-line content.
-
-Here's an example:
-
-[source,asciidoc]
-----
-[IMPORTANT]
-.Feeding the Werewolves
-====
-Werewolves are hardy community members.
-However some food is tricky.
-Avoid:
-
-* Chocolate
-* Dairy
-
-====
-----
-
-== Links
-
-Some types of links will be automatically identified (mailto, web URLs). Otherwise use the src:asciidoc[pass:[link:URI[text\]]] macro.
-
-[source,asciidoc]
-----
-https://example.com/page.html[A webpage]
-mailto:hello@example.org[Email to say hello!]
-link:tel:+123456789[A telephone number]
-link:../path/to/file.txt[A local file]
-xref:document.adoc[A sibling document]
-----
-
-To link to an anchor within a web page append a # to the web page followed by the section's ID. Like this
-
-
-[source,asciidoc]
-----
-http://test.com/page.html#Note_5[See Note 5]
-----
-
-[#lists]
-== Lists -- The Basics
-
-You can mix and match with unordered and ordered lists. Here's how they work:
-
-=== Unordered
-
-Unordered lists can use `*` or `-` characters but hyphens only work for single level lists.
-
-[source,asciidoc]
-----
-* level 1
-** level 2
-*** level 3
-**** etc.
-* back at level 1
-+
-Use the + at the start of a line - a list continuation to attach multi-line text to a list item.
-----
-
-A role can be applied on the line before the list using src:asciidoc[[square|circle|disc|none|unstyled\]]. 
-The default is a bullet.
-
-Just like most other blocks in Asciidoc, a title can be provided using a src:asciidoc[.Title] before the content (and role). Here's an example:
-
-[source,asciidoc]
-----
-.A clever title
-[square]
-* Here we are, using squares
-* We wrote `[square]` on the line before the first `*`
-* And `.A clever title` on the line above that
-----
-
-=== Ordered
-
-Auto-number by starting each numbered item with a `.`
-
-[source,asciidoc]
-----
-. Step 1
-. Step 2
-.. Step 2a
-.. Step 2b
-. Step 3
-----
-
-Ordered lists can use numbers but then you must keep them in order yourself.
-
-A role can be applied on the line before the list to change the numbering style using src:asciidoc[[style\]] where style is one of [.ad-attribute]#`arabic`#, [ad-attribute]#`decimal`#, [ad-attribute]#`loweralpha`#, [ad-attribute]#`upperalpha`#, [ad-attribute]#`lowerroman`#, [ad-attribute]#`upperroman`#, [ad-attribute]#`lowergreek`#.
-
-The default is 1,2,3... which is [ad-attribute]#`arabic`#.
-
-// arabic|decimal|loweralpha|upperalpha|lowerroman|upperroman|lowergreek]`.
-
-=== Specifying the start
-
-You can specify the start of an ordered list by setting a start attribute after the role or separately e.g.
-
-[.fullwidth.lit]
-[cols="1*<.<2a,1*<.<a",frame="none",grid="cols"]
-|===
-|
-[source,asciidoc]
-----
-.Remember Roman numerals?
-[lowerroman,start=4]
-. is one
-. is two
-. is three
-----
-|
-[source,asciidoc]
-----
-[start=2]
-. the second
-. the third
-----
-|===
-
-Irrespective of the style, `start=` should be followed by a number (like on the keyboard!)
-
-Sometimes in Asciidoc items "`stick together`" (e.g. list items). Use a comment line to separate them.
-
-== Anchors, References and Footnotes
-
-The legacy style is:
-
-[source,asciidoc]
-----
-[[idname,reference text]]
-----
-
-or written using normal block attributes as
-
-[source,asciidoc]
-----
-[#idname,reftext=reference text]`
-----
-
-A paragraph (or any block) with an anchor (aka ID) and reftext.
-
-[source,asciidoc]
-----
-See <<idname>> or <<idname,optional text of internal link>>.
-----
-
-Cross references to other documents:
-
-[source,asciidoc]
-----
-xref:another_doc.adoc[Jump to another doc]
-xref:document.adoc#idname[Jumps to anchor]
-----
-
-Finally, footnotesfootnote:[This is the text of the footnote.]:
-
-[source,asciidoc]
-----
-This paragraph has a footnote.footnote:[This is the text of the footnote.]
-----
 
 == Equations
 
@@ -507,9 +340,244 @@ a|
 |===
 endif::[]
 
+== Admonitions
+
+Asciidoctor has 5 default admonition types: `NOTE:`, `TIP:`, `IMPORTANT:`, `CAUTION:` and `WARNING:`.
+
+TIP: Start a paragraph like this one beginning `TIP:` and it will be displayed like this to catch your reader's attention.
+
+You can also fence an admonition using `====` and set a title by starting a line with a dot. This can help with complex multi-line content.
+
+Here's an example:
+
+[source,asciidoc]
+----
+[IMPORTANT]
+.Feeding the Werewolves
+====
+Werewolves are hardy community members.
+However some food is tricky.
+Avoid:
+
+* Chocolate
+* Dairy
+====
+----
+
+[#lists]
+// [#lists.columnbreak]
+== Lists -- The Basics
+
+You can mix and match with unordered and ordered lists. Here's how they work:
+
+=== Unordered
+
+Unordered lists can use `*` or `-` characters but hyphens only work for single level lists.
+
+[source,asciidoc]
+----
+.This list has a title
+[square]
+* level 1
+** level 2
+*** level 3
+**** etc.
+* back at level 1
++
+Use the + at the start of a line - a list continuation to attach multi-line text to a list item.
+----
+
+A role can be applied on the line before the list using src:asciidoc[[square|circle|disc|none|unstyled\]]. 
+The default is a bullet.
+
+Just like most other blocks in Asciidoc, a title can be provided using a src:asciidoc[.Title] before the content (and role). 
+
+=== Ordered
+
+Auto-number by starting each numbered item with a `.`
+
+[source,asciidoc]
+----
+. Step 1
+. Step 2
+.. Step 2a
+.. Step 2b
+. Step 3
+----
+
+Ordered lists can use numbers but then you must keep them in order yourself.
+
+A role can be applied on the line before the list to change the numbering style using src:asciidoc[[style\]] where style is one of [.ad-attribute]#`arabic`#, [ad-attribute]#`decimal`#, [ad-attribute]#`loweralpha`#, [ad-attribute]#`upperalpha`#, [ad-attribute]#`lowerroman`#, [ad-attribute]#`upperroman`#, [ad-attribute]#`lowergreek`#.
+
+The default is 1,2,3... which is [ad-attribute]#`arabic`#.
+
+// arabic|decimal|loweralpha|upperalpha|lowerroman|upperroman|lowergreek]`.
+
+=== Specifying the start
+
+You can specify the start of an ordered list by setting a start attribute after the role or separately e.g.
+
+[.fullwidth.lit]
+[cols="1*<.<a,1*<.<a",frame="none",grid="cols"]
+|===
+|
+[source,asciidoc]
+----
+.Remember Roman numerals?
+[lowerroman,start=4]
+. is one
+. is two
+. is three
+----
+|
+[source,asciidoc]
+----
+[start=2]
+. the second
+. the third
+----
+|===
+
+Irrespective of the style, [.ad-key]##`start`##[.ad-eq]##`=`## should be followed by a numeral (e.g. a number on the keyboard)
+
+Sometimes in Asciidoc items "`stick together`" (e.g. list items). Use a comment line (`//`) to separate them.
+
+// [.columnbreak]
+== Anchors, References and Footnotes
+
+The legacy style is:
+
+[source,asciidoc]
+----
+[[idname,reference text]]
+----
+
+or written using normal block attributes as
+
+[source,asciidoc]
+----
+[#idname,reftext=reference text]
+----
+
+A paragraph (or any block) with an anchor (aka ID) and reftext can be referred to:
+
+[source,asciidoc]
+----
+See <<idname>> or <<idname,optional text of internal link>>.
+----
+
+Cross references to other documents:
+
+[source,asciidoc]
+----
+xref:another_doc.adoc[Jump to another doc]
+xref:document.adoc#idname[Jumps to anchor]
+----
+
+Finally, footnotes:
+
+[source,asciidoc]
+----
+This paragraph has a footnote.footnote:[This is the text of the footnote.]
+----
+
+If you want to reuse a footnote, set a target as the first parameter e.g. src:asciidoc[\footnote:id[See the identifier\]] and then use that to reference it.
+
+
+== Comments
+
+Comments are not included in the output and can be useful for audit-trail, review, commentary and outstanding items.
+
+[source,asciidoc]
+----
+// single comments begin with 2 slashes
+
+////
+This is how we fence multi-line comments
+TODO: Consider learning grammar.
+////
+----
+
+
+== Links
+
+Some types of links will be automatically identified (mailto, web URLs). 
+Otherwise use the src:asciidoc[pass:[link:URI[text\]]] macro.
+
+[source,asciidoc]
+----
+https://example.com/page.html[A webpage]
+mailto:hello@example.org[Email to say hello!]
+link:tel:+123456789[A telephone number]
+link:../path/to/file.txt[A local file]
+xref:document.adoc[A sibling document]
+----
+
+To link to an anchor within a web page append a # to the web page followed by the section's ID. Like this
+
+[source,asciidoc]
+----
+http://test.com/page.html#Note_5[See Note 5]
+----
+
+You can hide the scheme (e.g. https) of URIs on the document by setting the document attribute src:asciidoc[:hide-uri-scheme:].
+
+To open a link in a new window, append a caret to the link text, or set the link using the window attribute, e.g. src:asciidoc[pass:[https://example.com/[Cool^\  ]]]
+
+== Syntax Highlighting
+
+If you set a the document attribute src:asciidoc[:source-highlighter:] to a valid option (`highlightjs` is one recommended option) then src:asciidoc[[source\]] blocks can be highlighted by specifying a language immediately after.
+
+// [.fullwidth.lit]
+// [cols="1*3,1*2",frame="none",grid="cols"]
+// [#pythonsource2]
+// |===
+// a|
+
+[source,asciidoc,subs=attributes]
+-----
+[source,python]
+----
+print('hello world')
+i = 1 # <1>{blank}
+----
+<1> This is a callout
+-----
+// a|
+// [source,python]
+// ----
+// print('hello world')
+// i = 1 # <1>
+// # i can add
+// i = i + 1
+// ----
+// <1> This is a callout
+// |===
+
+Callouts can be created by using either encasing a sequential number in carets, like src:asciidoc[<1>] and placing the callout text after the block or using an ordered list identifier src:asciidoc[<.>]
+
+[#viewing_asciidoc]
+.Viewing Asciidoc Files
+****
+If you are after a viewer for Asciidoc files, all major browsers have an extension -- just search for it.
+
+[#browser_extensions]
+[cols="3*^.^",frame=none,grid=none,align=center,width=100%]
+|===
+|image:chrome_icon.svg[width=25,link={uri-chrome-extension}]
+|image:firefox_icon.svg[width=28,link={uri-firefox-extension}] 
+|image:opera_icon.svg[width=25,link={uri-opera-extension}]
+|{nbsp}{uri-chrome-extension}[Chrome]{nbsp}
+|{nbsp}{uri-firefox-extension}[Firefox]{nbsp}
+|{nbsp}{uri-opera-extension}[Opera]{nbsp}
+|===
+
+****
+
 // ifndef::largeVersion[]
 // [.pagebreak]
 // endif::[]
+[.pagebreak]
 == Media
 
 Only due to space limitations we've not covered the {uri-asciidoctor-user-manual-video}[video], {uri-asciidoctor-user-manual-audio}[audio] and {uri-asciidoctor-user-manual-icon}[icon] macros.
@@ -527,24 +595,25 @@ Only due to space limitations we've not covered the {uri-asciidoctor-user-manual
 === Images
 
 Asciidoctor supports `jpg`, `png`, `svg` etc. -- basically anything {uri-mdn-web-image-formats}[a browser supports].
-Images can use either the block or inline macro:
+Images can use either the block (standalone) or inline (within the content flow) macro:
 
-block (standalone):: src:asciidoc[image::pic.jpg[width=200\]]
-inline (inside text):: src:asciidoc[in the pass:[image:pic2.jpg[Cool,200\]] text]
+[none]
+* *block* src:asciidoc[image::pic.jpg[width=200\]]
+* *inline* src:asciidoc[in the pass:[image:pic2.jpg[Cool,200\]] text]
 
 The only difference is one or two colons but inline images are within the content flow, block images are like separate paragraphs.
 
-If the document header contains an `imagesdir` then all relative image paths are resolved relative to it. So if the document header contains:
+If the document header contains has `imagesdir` set then all relative image paths are resolved relative to it. So if the document header contains:
 
 [source,asciidoc]
 ----
 :imagesdir: media
 ----
 
-Then `some_image.jpg` must be in that folder relative to the document.
-Absolute paths (`C:\images\image.png`) can be used and so can URLsfootnote:[But then the command line or API attribute `allow-uri-read` must be set for security reasons.].
+Then `some_image.jpg` must be in the `media` folder relative to the document.
+Absolute paths (`C:\images\image.png`) can be used and so can URLs. Before you can use URLs you must set the document attribute `allow-uri-read` (for security reasons).
 
-The images macro takes a range of comma-delimited attributes, common options are described below:
+The image macro takes a range of comma-delimited attributes, common options are described below:
 
 // QUESTION: Is attributes really the right name ? !
 
@@ -652,7 +721,7 @@ endif::[]
 
 == Blocks
 
-Asciidoctor supports different kinds of blocks, delimited using 2 or 4 characters. <<Admonitions>> are an example but there are more:
+Asciidoctor supports different kinds of blocks, delimited (or fenced) using 2 or 4 characters. <<Admonitions>> are an example but there are more:
 
 [.fullwidth.lit]
 [cols="2*a",frame="none",grid="columns"]
@@ -702,9 +771,69 @@ pass - content passed directly to the output document; often raw HTML
 ++++
 -----
 
+ifdef::largeVersion[]
+[source,asciidoc]
+[quote, attribution, citation title and information]
+____
+Quotes don't keep line breaks.
+And provide citation information.
+____
+
+[verse, Carl Sandburg, Fog]
+____
+Verse preserves
+indents
+and
+line
+breaks
+and allows
+citation info
+____
+endif::[]
+
 |===
 
-If you need to nest blocks inside each other, add an extra pair of symbols to the nested block.
+If you need to nest blocks inside each other, add an extra pair of enclosing symbols to the nested block.
+
+[.columnbreak]
+=== Block options
+
+There is the "legacy" style where an id is specified as follows:
+
+[source,asciidoc]
+----
+[[id]]
+[block_name,role="role",options="opt1,opt2"]
+----
+
+The block The id is added to the html element, the role is transformed to a CSS class and the options enable particular features. 
+They should be double quoted when necessary to distinguish them from other attributes.
+
+They can also be written using the shorthand supported by Asciidoctor:
+
+[source,asciidoc]
+----
+[block_name#id.role%option1%option2]
+----
+
+Anywhere the src:asciidoc[opts] or src:asciidoc[options] attribute can be set you can shorten it by using src:asciidoc[[%option1%option2\]]. 
+Some useful options on normal paragraphs are:
+
+[none]
+* [ad-val]#hardbreaks# - newlines are newlines.
+* [ad-val]#unbreakable# - can't be split onto separate pages 
+
+The [ad-key]#options# attribute also has specific meaning for tables and images.
+
+Any block allows a title to be set on it by putting a period and the title immediately after, for instance here is a title on a sidebar block:
+
+[source,asciidoc]
+----
+.Why Is Asciidoc So Cool
+****
+It has a well designed semantic which maps onto user requirements from Docbook.
+****
+----
 
 == Attributes and Conditional Processing
 
@@ -758,39 +887,71 @@ Note the quotes for strings
 ----
 // |===
 
-== Syntax Highlighting
-
-If you set a the document attribute src:asciidoc[:source-highlighter:] to a valid option (`highlightjs` is one recommended option) then src:asciidoc[[source\]] blocks can be highlighted by specifying a language immediately after.
-
-[.fullwidth.lit]
-[cols="1*3,1*2",frame="none",grid="cols"]
-|===
-a|
-[#pythonsource2]
+There is also a single line option for each, e.g.
 
 [source,asciidoc]
------
-[source,python]
-----
-print('hello world')
-i = 1 # <1>{blank}
-# i can add
-i = i + 1
-----
-<1> This is a callout
------
-a|
-[source,python]
-----
-print('hello world')
-i = 1 # <1>
-# i can add
-i = i + 1
-----
-<1> This is a callout
-|===
+\ifdef::fish[Fish was set]
 
-Callouts can be created by using either encasing a sequential number in carets, like src:asciidoc[<1>] and placing the callout text after the block or using an ordered list identifier src:asciidoc[<.>]
+For the ifdef and ifndef macros, `AND` conditions can be specified with a comma delimited argument and `OR` conditions with a `+` between arguments.
+
+[source,asciidoc]
+\ifdef::backend-html5,backend-pdf[Shown when converting HTML5 OR PDF]
+\ifdef::backend-html5+fish[Shown when converting to HTML5 AND with fish set]
+
+[.columnbreak]
+== The Include Macro
+
+To partition, reuse or populate data sources, use the `include` macro.
+You can think of the `include` macro as being a way to directly insert the text of the file into the current document.
+
+The `include` macro allows you to bring content from other files or URLs by placing the following in a line:
+
+[source,asciidoc]
+----
+\include::chapter01.adoc[]
+// set :allow-uri-read: in doc header to allow URI content
+\include::https://example.org/install.adoc[]
+\include::base.adoc[tags=intro]
+----
+
+Here are the options:
+
+[.fullwidth.lit]
+[cols="1*<.^a,1*<.^5a",frame="none",grid="cols",options="header"]
+|===
+|Attribute
+|Description
+
+|[.ad-key]#`leveloffset`#
+|e.g. `leveloffset=+1`
+This allows all headings to be pushed down (`+`)or up (`-`) a specified number of levels
+
+|[.ad-key]#`lines`#
+|Can be specified individually or as a range. For example: `lines=7;14..25;28..43`. `-1` means the "`last line`"
+
+|[.ad-key]#`tags`#
+| tagged regions in the included file start with a comment (e.g. `//` for Asciidoc) and then `tag::<name>[]` and end with `end::<name>[]`.
+Multiple tags from the same file are allowed, separate with `;`. There are other parameters for {uri-asciidoctor-user-manual-include-tag-filtering}[filtering and selecting]
+
+|[.ad-key]#`indent`#
+|[.ad-key]##`indent`##[.ad-eq]##`=`##[.ad-val]##`0`## strips out any indentation and increasing numbers add it back in multiples of the attribute `tabsize` which defaults to 4.
+You can, for instance set src:asciidoc[:tabsize: 2] in the document header
+
+|===
+[leveloffset=offset,lines=ranges,tag(s)=name(s),indent=depth,opts=optional]
+
+Asciidoc files are processed to allow includes and conditionals, and csv data can be included into tables to separate data from document structure.
+
+ifdef::largeVersion[]
+[TIP]
+--
+To `include` content in a list item, use the `blank` attribute:
+....
+  * {blank}
+  include::item-text.adoc[]
+....
+--
+endif::[]
 
 // DONE ELSEWHERE
 // activate stem support by adding `:stem:` to the document header
@@ -835,12 +996,15 @@ Tables are a block starting and ending with src:asciidoc[|===] and with src:asci
 Some important attributes are defined above this:
 
 [.fullwidth.lit]
-[cols="<.^1a,<.^2a",width=100%,frame=none,grid=columns]
+[cols="<.^1a,<.^5a",width=100%,frame=none,grid=columns]
 |===
 | Name | Values
 
 | [.ad-key]#`options`#
-| [.ad-val]#`header`#,[.ad-val]#`footer`#,[.ad-val]#`autowidth`#
+| [.ad-val]#`header`#,[.ad-val]#`footer`#,[.ad-val]#`autowidth`#,[.ad-val]#`breakable`#,[.ad-val]#`unbreakable`# +
+(header promotes the first row to table header, similar for footer) +
+(autowidth ignores column specifiers) + 
+(breakable and unbreakable allow/prevent splitting across a page)
 
 | [.ad-key]#`cols`#
 | `colspec[,colspec,...]`
@@ -858,7 +1022,11 @@ Some important attributes are defined above this:
 | 0%..100% (or any proportion)
 
 | [.ad-key]#`format`#
-| [.ad-val]#`psv`# {vbar} [.ad-val]#`csv`# {vbar} [.ad-val]#`dsv`#
+| [.ad-val]#`psv`# {vbar} [.ad-val]#`csv`# {vbar} [.ad-val]#`dsv`# {vbar} [.ad-val]#`tsv`# pipe, comma, colon and tab delimited data.
+
+|[.ad-key]#`separator`#
+|The default is [.ad-key]##`separator`##[.ad-eq]##`=`##[.ad-val]##`\|`## in [.ad-val]#`psv`# tables and [.ad-val]##`:`## in [.ad-val]#`dsv`# tables
+
 |===
 
 The src:asciidoc[colspec] is quite intricate for each set of columns:
@@ -870,9 +1038,13 @@ The multiplier operator (`*`) allows you to specify the same style for multiple 
 
 If the columns aren't specified the number of columns is the number used in the first line
 
-The alignment values can be `<` = left/top, `^` = center/middle or `>` = right/bottom
-
+The alignment values can be `<` = left/top, `^` = center/middle or `>` = right/bottom. 
 The width is just a relative proportion (a percentage or just a number)
+
+// Need to move to the next page
+// This is a hacky kludge and messes up the TOC.
+[#donotshow.columnbreak]
+=== {nbsp}
 
 Style is one of the following:
 
@@ -884,15 +1056,14 @@ a|
 * [ad-key]#`a`# -- standalone document: allows all block-level elements
 * [ad-key]#`e`# -- italic/emphasis
 * [ad-key]#`h`# -- header
+* [ad-key]#`l`# -- literal block
 a|
 [none]
-* [ad-key]#`l`# -- literal block
 * [ad-key]#`m`# -- monospaced block
 * [ad-key]#`d`# -- default style
 * [ad-key]#`s`# -- strong/bold
 * [ad-key]#`v`# -- content is like a verse block
 // TODO: Except we haven't mentioned verse blocks.
-
 |===
 
 To put the same content in some cells you can specify this before the cell separator:
@@ -923,48 +1094,43 @@ TIP: To use a pipe (|) within the content of a cell without creating a new cell,
 
 [source,asciidoc]
 ----
+[cols="4*^.^e",options="header",grid="rows"]
 |===
-
-|Column 1, row 1 |Column 2, row 1 |Column 3, row 1 |Column 4, row 1
-
-|Column 1, row 2
+|Col 1, row 1 |Col 2, row 1 |Col 3, row 1 |Col 4, row 1
+|Col 1, row 2
 2.2+|Content in a single cell that spans over rows and columns
-|Column 4, row 2
-
-|Column 1, row 3
-|Column 4, row 3
-
+|Col 4, row 2
+|Col 1, row 3
+|Col 4, row 3
 |===
 ----
 
 results in:
 
+[cols="4*^.^e",options="header",grid="rows"]
 |===
+|Col 1, row 1 |Col 2, row 1 |Col 3, row 1 |Col 4, row 1
 
-|Column 1, row 1 |Column 2, row 1 |Column 3, row 1 |Column 4, row 1
-
-|Column 1, row 2
+|Col 1, row 2
 2.2+|Content in a single cell that spans over rows and columns
-|Column 4, row 2
+|Col 4, row 2
 
-|Column 1, row 3
-|Column 4, row 3
+|Col 1, row 3
+|Col 4, row 3
 |===
 
 == Escaping Reserved Asciidoc Syntax
 
-Just occasionally, syntax seems through a spanner in the works when you want to use those characters in your text.
+Just occasionally, syntax seems to throw a spanner in the works when you want to use those characters to appear in the output.
 
-The text below doesn't render very well if you want the asterisks and square brackets to appear because they are Asciidoc syntax
+The text below appears incorrect because the asterisks and square brackets are Asciidoc syntax
 
 [source,asciidoc]
 ----
-[hi] *hi*
+[hi] [bye] [fly]
 ----
 
-To fix issues like this, we use escaping and pass-through macros.
-
-To escape highlighting or emphasis, one option is to use `+` to escape
+To fix issues like this, we use escaping and passthrough macros.
 
 === Pluses
 
@@ -977,32 +1143,9 @@ Pluses are an escape character. More pluses means stronger escaping. Three pluse
 +++[hi] *hi*+++
 ----
 
-=== Passthrough Macros
+=== Passthrough Block
 
-// TIP: We recommend avoiding backslashes and the use of $ signs.
-
-The inline pass macro is almost always helpful (but not concise or elegant). You write [ad-macro]#`pass:`# followed by a comma delimited list of options (character or the name without spaces):
-
-* [ad-key]#`c`# = special characters -- substitutes `&`, `<` and `>` as these are reserved characters in HTML
-* [ad-key]#`q`# = quotes -- bold, italic, monospace super/sub-scripts)
-* [ad-key]#`r`# = replacements -- e.g. +(C)+ and +->+ and +--+
-* [ad-key]#`m`# = macros -- allows inline macros
-* [ad-key]#`a`# = attributes -- allows attribute substitution
-* [ad-key]#`p`# = post replacements
-
-and then follow with the text you want in square brackets. Some examples:
-
-[source,asciidoc]
-----
-The text pass:[<u>underline me</u>] is underlined.
-pass:attributes[No *bold*, but the backend is {backend}]
-pass:specialcharacters[Almost No__thing__ works {any} *more*]
-pass:q,r[But I am a circled C, (C) and should contain *bold* text.]
-----
-
-=== Controlling Substitutions
-
-If nothing else works, there are still other options. First the passthrough block:
+The passthrough block prevents processing on the entire block:
 
 [source,asciidoc]
 ----
@@ -1011,9 +1154,40 @@ If nothing else works, there are still other options. First the passthrough bloc
 ++++
 ----
 
-This translates the content directly to the back-end without any modification.
+=== Escaping with Backslashes
 
-The other is to wrap content in a <<Blocks,block>>  and add the `subs` attribute:
+Another way to escape is to use the number of backslashes equal to the number of characters the formatting uses. 
+For example to escape emphasis you can use pass:m[src:asciidoc[\_\]] or for unconstrained emphasis pass:m[src:asciidoc[\\__\]]
+
+[.columnbreak]
+=== Controlling Substitutions
+
+To have fine-grained control the best way is to either to use the passthrough macro for inline content or to set the [ad-key]#`subs`# attribute on the block directly.
+
+In both cases, you can control the processing of the enclosed text from none to all by specifying substitutions. You can either explicitly declare substitutions or add and remove them from the default set with `+` or `-``. The substitutions are:
+
+[none]
+* [ad-val]#`c`# = [ad-val]#`specialcharacters`# -- substitutes `&`, `<` and `>` as these are reserved characters in HTML
+* [ad-val]#`q`# = [ad-val]#`quotes`# -- bold, italic, monospace super/sub-scripts)
+* [ad-val]#`r`# = [ad-val]#`replacements`# -- e.g. +(C)+ and +->+ and +--+
+* [ad-val]#`m`# = [ad-val]#`macros`# -- allows inline macros
+* [ad-val]#`a`# = [ad-val]#`attributes`# -- allows attribute substitution
+* [ad-val]#`p`# = [ad-val]#`post_replacements`# -- removes the line break `+` character
+
+// TIP: We recommend avoiding backslashes and the use of $ signs.
+
+To use substitutions with the inline pass macro you write [ad-macro]#`pass:`# followed by a comma delimited list of substitutions (single character or the name) and then follow with the text you want in square brackets. Some examples:
+
+[source,asciidoc]
+----
+The text pass:[<u>underline me</u>] is underlined.
+pass:attributes[No *bold*, but the backend is {backend}]
+pass:specialcharacters[Almost No__thing__ works {any} *more*]
+pass:q,r[But I am a circled C, (C) and should contain *bold* text.]
+pass:m[I still want to see the result of kbd:[Ctrl+Shift+N]]
+----
+
+The other is to wrap content in a <<Blocks,block>>  and add the [.ad-key]#`subs`# attribute. You must specify the substitutions with the full substitution name:
 
 [source,asciidoc]
 -----
@@ -1024,73 +1198,20 @@ pass:quotes[But I should contain *bold* text.]
 ----
 -----
 
-When you set the subs attribute on a block, you automatically remove all of its default substitutions.
-
-For example, if you set `subs` on a literal block, and assign it a value of `a`, only attributes are substituted. The verbatim substitution will not be applied.
-To remedy this situation, Asciidoctor provides a syntax to append or remove substitutions instead of replacing them outright.
+When you set the [.ad-key]#`subs`# attribute on a block, you automatically remove _all_ of its default substitutions. 
+For example, if you set [.ad-key]#`subs`# on a literal block, and assign it a value of `attributes`, only attributes are substituted. The verbatim substitution will not be applied.
+To help with this situation, Asciidoc provides a syntax to append or remove substitutions instead of replacing them outright.
 
 You can add or remove a substitution from the default substitution list using the plus (`+`) and minus (`-`) modifiers.
 These allow incremental substitutions.
 
-* `<substitution>+` -- prepends the substitution to the default list
-* `+<substitution>` -- appends the substitution to the default list
-* `-<substitution>` -- removes the substitution from the default list
+The default list is the substitutions in the order shown <<Controlling Substitutions, above>>.
+// from first to last:  `c`,`q`,`r`,`m`,`a`, `p`
 
-The default list is the substitutions in the order shown <<Passthrough Macros, above>>, from first to last:  `c`,`q`,`r`,`m`,`a`, `p`
-
-Finally, the least stable way is to use the number of backslashes required to escape the number of characters the formatting uses. For example to escape emphasis you can use pass:m[src:asciidoc[\_\]] or for unconstrained emphasis, pass:m[src:asciidoc[\\__\]]
-
-// [.columnbreak]
-== The Include Macro
-
-To partition, reuse or populate data sources, use the include macro to bring content from other files or URLs by placing the following in a line:
-
-[source,asciidoc]
-----
-\include::chapter01.adoc[]
-// set :allow-uri-read: in doc header to allow URI content
-\include::https://example.org/install.adoc[]
-\include::base.adoc[tag=intro]
-----
-
-Here are the options:
-
-[.fullwidth.lit]
-[cols="1*<.^a,1*<.^5a",frame="none",grid="cols",options="header"]
-|===
-|Attribute
-|Description
-
-|[.ad-key]#`leveloffset`#
-|e.g. `leveloffset=+1`
-This allows all headings to be pushed down (`+`)or up (`-`) a specified number of levels
-
-|[.ad-key]#`lines`#
-|Can be specified individually or as a range. For example: `lines=7;14..25;28..43`. `-1` means the "`last line`"
-
-|[.ad-key]#`tags`#
-| tagged regions in the included file start with a comment (e.g. `//` for Asciidoc) and then `tag::<name>[]` and end with `end::<name>[]`.
-Multiple tags from the same file are allowed, separate with `;`
-
-|[.ad-key]#`indent`#
-|[.ad-key]##`indent`##[.ad-eq]##`=`##[.ad-val]##`0`## strips out any indentation and increasing numbers add it back in multiples of the attribute `tabsize` which defaults to 4.
-You can, for instance set src:asciidoc[:tabsize: 2] in the document header
-
-|===
-[leveloffset=offset,lines=ranges,tag(s)=name(s),indent=depth,opts=optional]
-
-Asciidoc files are processed to allow includes and conditionals, and csv data can be included into tables to separate data from document structure.
-
-ifdef::largeVersion[]
-[TIP]
---
-To `include` content in a list item, use the `blank` attribute:
-....
-  * {blank}
-  include::item-text.adoc[]
-....
---
-endif::[]
+[none]
+* [.ad-val]#`<substitution>+`# -- prepends to the default list
+* [.ad-val]#`+<substitution>`# -- appends to the default list
+* [.ad-val]#`-<substitution>`# -- removes from the default list
 
 == Editors
 
@@ -1149,26 +1270,22 @@ endif::[]
 
 // Add browsers
 
-// == What's Next
 
 // === Support
 
 // * Check out the {uri-docs}[user manual] for detailed help on any topic
 
-ifdef::largeVersion[]
-* Asciidoctor is super-extensible allowing overrides to implement custom macros, special types of blocks and even completely different converters. {uri-asciidoctor-user-manual-extensions}[Check it out!] or browse the {uri-asciidoctor-extensions-lab}[extensions lab]
-endif::[]
+== What's Next
 
-ifdef::largeVersion[]
-=== Other Projects
+* Asciidoctor is super-extensible allowing overrides to implement custom macros, special types of blocks and even completely different converters. {uri-asciidoctor-user-manual-extensions}[Check it out] or browse the {uri-asciidoctor-extensions-lab}[extensions lab]
+* See {uri-asciidoctor-diagram}[asciidoctor-diagram] to embed UML diagrams, create specialised diagrams from text and have them rendered on the fly
+* For `pdf` backend output see {uri-asciidoctor-pdf}[asciidoctor-pdf] or for a full web based stack, see {uri-asciidoctor-pdf-js}[asciidoctor-web-pdf]
+* Check out how to use the {uri-revealjs-asciidoctor}[Asciidoctor-friendly reveal.js]
+//  -- with the {uri-revealjs}[popular presentation framework]
+* For creating a static website, checkout {uri-antora}[Antora], {uri-hugo}[Hugo], {uri-middleman}[Middleman] or see {uri-static-website-asciidoc-list}[this list] for more options
 
-* {uri-asciidoctor-diagram}[asciidoctor-diagram] -- embed UML diagrams, create specialised diagrams from text and have them rendered on the fly
-* For `pdf` backend output see {uri-asciidoctor-pdf}[asciidoctor-pdf] or for a full web based stack, see {uri-asciidoctor-pdf-js}[asciidoctor-pdf.js]
-* Want to make a presentation? Check out how to use the {uri-revealjs-asciidoctor}[Asciidoctor-friendly reveal.js] -- with the {uri-revealjs}[popular presentation framework]
-ifdef::largeVersion[]
-* If creating a static website, checkout {uri-antora}[Antora], {uri-hugo}[Hugo], {uri-jekyll}[Jekyll] or see {uri-static-website-asciidoc-list}[this list] for more options
-endif::[]
-endif::[]
+// ifdef::largeVersion[]
+// endif::[]
 
 ifdef::largeVersion[]
 === Static Websites
@@ -1188,11 +1305,3 @@ For static websites, consider using:
 
 See {uri-static-website-asciidoc-list}[this list] for more options
 endif::[]
-////
-
-// ifdef ifeval macros
-// tables
-// when you have trouble
-// substitution types
-// blocks titles and roles
-////

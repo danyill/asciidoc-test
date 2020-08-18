@@ -29,23 +29,25 @@ module.exports = {
   <h1 class="title">${node.getTitle()}</h1>
   <span class="versioning">
   <!-- <p>AsciiDoc is a Trademark of the Eclipse Foundation, Inc.</p> -->
-  <p>Cheatsheet version: <code>${node.getRevisionNumber()}</code></p>
-  <p> Asciidoctor version: 2.0.10</p>
+  <p>Cheatsheet version <br/><code>${node.getRevisionNumber()}</code></p>
+  <p>Asciidoctor version <br/><code>${node.getAttribute('asciidoctor-version')}</code></p>
   </span>
 </header>
 <section class="content">
 ${node.getContent()}
 <div class="sect1 authors">
-<h2>Footnotes</h2>
-${footnotes(node)}
 </section>
 <footer>
-
 </footer>
 ${stemContent.content(node)}
 <script src="./base/prism.js"></script>
 </body>
 </html>`
+
+// If we decide to have footnotes
+// <h2>Footnotes</h2>
+// ${footnotes(node)}
+
 }
 
 
